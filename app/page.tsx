@@ -2,64 +2,133 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <main className="min-h-screen bg-black text-white flex flex-col items-center justify-center relative overflow-hidden">
+      {/* Animated background grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a1a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a1a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
+      
+      {/* Animated gold orbs */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[#d4af37]/10 rounded-full blur-[120px] animate-pulse"></div>
+        <div className="absolute bottom-1/3 right-1/3 w-[500px] h-[500px] bg-[#d4af37]/5 rounded-full blur-[100px] animate-pulse [animation-delay:2s]"></div>
+      </div>
+
+      {/* Decorative corner elements */}
+      <div className="absolute top-0 left-0 w-32 h-32 border-t-2 border-l-2 border-[#d4af37]/30"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 border-t-2 border-r-2 border-[#d4af37]/30"></div>
+      <div className="absolute bottom-0 left-0 w-32 h-32 border-b-2 border-l-2 border-[#d4af37]/30"></div>
+      <div className="absolute bottom-0 right-0 w-32 h-32 border-b-2 border-r-2 border-[#d4af37]/30"></div>
+
+      {/* Main Content */}
+      <div className="relative z-10 text-center px-6 max-w-4xl">
+        {/* Logo */}
+        <div className="mb-12 relative mx-auto w-96 h-48 md:w-[500px] md:h-60 drop-shadow-[0_0_40px_rgba(212,175,55,0.4)]">
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            fill
+            className="object-contain"
+            priority
+          />
+        </div>
+
+        {/* Coming Soon Text with animation */}
+        <div className="mb-6 overflow-hidden">
+          <h1 className="text-3xl md:text-5xl font-bold tracking-[0.2em] animate-[fadeInUp_1s_ease-out]">
+            <span className="inline-block bg-gradient-to-r from-[#b8941f] via-[#f4e4bc] to-[#d4af37] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(212,175,55,0.5)]">
+              COMING SOON
+            </span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+        </div>
+
+        {/* Animated divider */}
+        <div className="relative w-32 h-[2px] mx-auto my-10">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#f4e4bc] to-transparent animate-pulse"></div>
+        </div>
+
+        {/* Tagline */}
+        <p className="text-xl md:text-2xl text-gray-400 mb-4 tracking-wide font-light animate-[fadeInUp_1s_ease-out_0.3s_both]">
+          Something extraordinary is on its way
+        </p>
+        <p className="text-sm md:text-base text-gray-600 mb-16 tracking-wider uppercase animate-[fadeInUp_1s_ease-out_0.5s_both]">
+          Elevate Your Experience
+        </p>
+
+        {/* Email Signup Form */}
+        <div className="animate-[fadeInUp_1s_ease-out_0.7s_both]">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-xl mx-auto mb-8">
+            <input
+              type="email"
+              placeholder="Enter your email address"
+              className="flex-1 px-6 py-5 bg-black/50 backdrop-blur-sm border border-[#d4af37]/30 rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-[#d4af37] focus:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all duration-300"
+            />
+            <button className="px-10 py-5 bg-gradient-to-r from-[#d4af37] to-[#b8941f] text-black font-bold rounded-lg hover:shadow-[0_0_40px_rgba(212,175,55,0.6)] transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 uppercase tracking-wider">
+              Notify Me
+            </button>
+          </div>
+          <p className="text-xs text-gray-600">
+            Be the first to know when we launch
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Countdown or Progress indicator */}
+        <div className="mt-16 flex justify-center gap-8 animate-[fadeInUp_1s_ease-out_0.9s_both]">
+          {[
+            { value: "30", label: "Days" },
+            { value: "12", label: "Hours" },
+            { value: "45", label: "Minutes" },
+          ].map((item, idx) => (
+            <div key={idx} className="text-center">
+              <div className="text-3xl md:text-4xl font-bold text-[#d4af37] mb-2">
+                {item.value}
+              </div>
+              <div className="text-xs text-gray-500 uppercase tracking-widest">
+                {item.label}
+              </div>
+            </div>
+          ))}
         </div>
-      </main>
-    </div>
+
+        {/* Social Links */}
+        <div className="flex justify-center gap-8 mt-16 animate-[fadeInUp_1s_ease-out_1.1s_both]">
+          {[
+            { name: "Instagram", icon: "IG" },
+            { name: "Twitter", icon: "TW" },
+            { name: "LinkedIn", icon: "IN" },
+          ].map((social) => (
+            <a
+              key={social.name}
+              href="#"
+              className="group relative"
+            >
+              <div className="w-12 h-12 rounded-full border border-[#d4af37]/30 flex items-center justify-center text-xs font-bold text-gray-500 group-hover:text-[#d4af37] group-hover:border-[#d4af37] group-hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300">
+                {social.icon}
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer className="absolute bottom-8 text-center text-xs text-gray-700 tracking-wider">
+        <p>&copy; 2024 All Rights Reserved</p>
+      </footer>
+
+      {/* Floating particles effect */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(20)].map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-1 h-1 bg-[#d4af37]/20 rounded-full animate-float"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${5 + Math.random() * 10}s`,
+            }}
+          ></div>
+        ))}
+      </div>
+    </main>
   );
 }
