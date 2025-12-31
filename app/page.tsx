@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    
+
     <main className="min-h-screen bg-black text-white flex flex-col items-center justify-center relative overflow-hidden">
       {/* Animated background grid */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#1a1a1a_1px,transparent_1px),linear-gradient(to_bottom,#1a1a1a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
@@ -12,6 +12,7 @@ export default function Home() {
         <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[#c9a961]/10 rounded-full blur-[120px] animate-pulse"></div>
         <div className="absolute bottom-1/3 right-1/3 w-[500px] h-[500px] bg-[#c9a961]/5 rounded-full blur-[100px] animate-pulse [animation-delay:2s]"></div>
       </div>
+      
 
       {/* Decorative corner elements */}
       <div className="absolute top-0 left-0 w-32 h-32 border-t-2 border-l-2 border-[#c9a961]/30"></div>
