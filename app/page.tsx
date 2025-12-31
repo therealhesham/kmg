@@ -8,20 +8,20 @@ export default function Home() {
       
       {/* Animated gold orbs */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[#d4af37]/10 rounded-full blur-[120px] animate-pulse"></div>
-        <div className="absolute bottom-1/3 right-1/3 w-[500px] h-[500px] bg-[#d4af37]/5 rounded-full blur-[100px] animate-pulse [animation-delay:2s]"></div>
+        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-[#c9a961]/10 rounded-full blur-[120px] animate-pulse"></div>
+        <div className="absolute bottom-1/3 right-1/3 w-[500px] h-[500px] bg-[#c9a961]/5 rounded-full blur-[100px] animate-pulse [animation-delay:2s]"></div>
       </div>
 
       {/* Decorative corner elements */}
-      <div className="absolute top-0 left-0 w-32 h-32 border-t-2 border-l-2 border-[#d4af37]/30"></div>
-      <div className="absolute top-0 right-0 w-32 h-32 border-t-2 border-r-2 border-[#d4af37]/30"></div>
-      <div className="absolute bottom-0 left-0 w-32 h-32 border-b-2 border-l-2 border-[#d4af37]/30"></div>
-      <div className="absolute bottom-0 right-0 w-32 h-32 border-b-2 border-r-2 border-[#d4af37]/30"></div>
+      <div className="absolute top-0 left-0 w-32 h-32 border-t-2 border-l-2 border-[#c9a961]/30"></div>
+      <div className="absolute top-0 right-0 w-32 h-32 border-t-2 border-r-2 border-[#c9a961]/30"></div>
+      <div className="absolute bottom-0 left-0 w-32 h-32 border-b-2 border-l-2 border-[#c9a961]/30"></div>
+      <div className="absolute bottom-0 right-0 w-32 h-32 border-b-2 border-r-2 border-[#c9a961]/30"></div>
 
       {/* Main Content */}
       <div className="relative z-10 text-center px-6 max-w-4xl">
         {/* Logo */}
-        <div className="mb-12 relative mx-auto w-96 h-48 md:w-[500px] md:h-60 drop-shadow-[0_0_40px_rgba(212,175,55,0.4)]">
+        <div className="mb-12 relative mx-auto w-96 h-48 md:w-[500px] md:h-60 drop-shadow-[0_0_40px_rgba(201,169,97,0.3)]">
           <Image
             src="/logo.png"
             alt="Logo"
@@ -34,7 +34,7 @@ export default function Home() {
         {/* Coming Soon Text with animation */}
         <div className="mb-6 overflow-hidden">
           <h1 className="text-3xl md:text-5xl font-bold tracking-[0.2em] animate-[fadeInUp_1s_ease-out]">
-            <span className="inline-block bg-gradient-to-r from-[#b8941f] via-[#f4e4bc] to-[#d4af37] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(212,175,55,0.5)]">
+            <span className="inline-block bg-gradient-to-r from-[#a08750] via-[#d4bc8e] to-[#c9a961] bg-clip-text text-transparent drop-shadow-[0_0_30px_rgba(201,169,97,0.4)]">
               COMING SOON
             </span>
           </h1>
@@ -42,8 +42,8 @@ export default function Home() {
 
         {/* Animated divider */}
         <div className="relative w-32 h-[2px] mx-auto my-10">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#d4af37] to-transparent"></div>
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#f4e4bc] to-transparent animate-pulse"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#c9a961] to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#d4bc8e] to-transparent animate-pulse"></div>
         </div>
 
         {/* Tagline */}
@@ -60,9 +60,9 @@ export default function Home() {
             <input
               type="email"
               placeholder="Enter your email address"
-              className="flex-1 px-6 py-5 bg-black/50 backdrop-blur-sm border border-[#d4af37]/30 rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-[#d4af37] focus:shadow-[0_0_20px_rgba(212,175,55,0.3)] transition-all duration-300"
+              className="flex-1 px-6 py-5 bg-black/50 backdrop-blur-sm border border-[#c9a961]/30 rounded-lg text-white placeholder-gray-600 focus:outline-none focus:border-[#c9a961] focus:shadow-[0_0_20px_rgba(201,169,97,0.3)] transition-all duration-300"
             />
-            <button className="px-10 py-5 bg-gradient-to-r from-[#d4af37] to-[#b8941f] text-black font-bold rounded-lg hover:shadow-[0_0_40px_rgba(212,175,55,0.6)] transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 uppercase tracking-wider">
+            <button className="px-10 py-5 bg-gradient-to-r from-[#c9a961] to-[#a08750] text-black font-bold rounded-lg hover:shadow-[0_0_40px_rgba(201,169,97,0.5)] transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 uppercase tracking-wider">
               Notify Me
             </button>
           </div>
@@ -79,7 +79,7 @@ export default function Home() {
             { value: "45", label: "Minutes" },
           ].map((item, idx) => (
             <div key={idx} className="text-center">
-              <div className="text-3xl md:text-4xl font-bold text-[#d4af37] mb-2">
+              <div className="text-3xl md:text-4xl font-bold text-[#c9a961] mb-2">
                 {item.value}
               </div>
               <div className="text-xs text-gray-500 uppercase tracking-widest">
@@ -89,7 +89,7 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Social Links */}
+        {/* Social Links
         <div className="flex justify-center gap-8 mt-16 animate-[fadeInUp_1s_ease-out_1.1s_both]">
           {[
             { name: "Instagram", icon: "IG" },
@@ -101,12 +101,12 @@ export default function Home() {
               href="#"
               className="group relative"
             >
-              <div className="w-12 h-12 rounded-full border border-[#d4af37]/30 flex items-center justify-center text-xs font-bold text-gray-500 group-hover:text-[#d4af37] group-hover:border-[#d4af37] group-hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300">
+              <div className="w-12 h-12 rounded-full border border-[#c9a961]/30 flex items-center justify-center text-xs font-bold text-gray-500 group-hover:text-[#c9a961] group-hover:border-[#c9a961] group-hover:shadow-[0_0_20px_rgba(201,169,97,0.3)] transition-all duration-300">
                 {social.icon}
               </div>
             </a>
           ))}
-        </div>
+        </div> */}
       </div>
 
       {/* Footer */}
@@ -119,7 +119,7 @@ export default function Home() {
         {[...Array(20)].map((_, i) => (
           <div
             key={i}
-            className="absolute w-1 h-1 bg-[#d4af37]/20 rounded-full animate-float"
+            className="absolute w-1 h-1 bg-[#c9a961]/20 rounded-full animate-float"
             style={{
               left: `${Math.random() * 100}%`,
               top: `${Math.random() * 100}%`,
