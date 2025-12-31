@@ -1,38 +1,55 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
-  --foreground: #f5f5f5;
-  --gold: #c9a961;
-  --gold-light: #d4bc8e;
-  --gold-dark: #a08750;
+  --background: #030303;
+  --foreground: #f8f6f0;
+  --gold: #c4a052;
+  --gold-light: #e8d5a3;
+  --gold-dark: #8b7235;
+  --gold-muted: #b89d4f;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-cormorant);
+  --font-sans: var(--font-outfit);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  font-family: var(--font-outfit), system-ui, sans-serif;
 }
 
 * {
   scroll-behavior: smooth;
 }
 
+/* Custom selection color */
+::selection {
+  background: rgba(196, 160, 82, 0.3);
+  color: #fff;
+}
+
+/* Animations */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(40px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
@@ -42,22 +59,80 @@ body {
     opacity: 0;
   }
   10% {
-    opacity: 0.3;
+    opacity: 0.4;
   }
   50% {
-    transform: translateY(-100vh) translateX(50px);
-    opacity: 0.5;
+    transform: translateY(-100vh) translateX(30px);
+    opacity: 0.6;
   }
   90% {
     opacity: 0.3;
   }
 }
 
-@keyframes pulse {
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes glow {
   0%, 100% {
-    opacity: 0.5;
+    opacity: 0.4;
+    filter: blur(80px);
   }
   50% {
-    opacity: 0.8;
+    opacity: 0.7;
+    filter: blur(100px);
+  }
+}
+
+@keyframes borderGlow {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse-slow {
+  0%, 100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes line-extend {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
