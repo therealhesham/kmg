@@ -59,6 +59,7 @@ export default function AdminPage() {
   const [isUploading, setIsUploading] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const [showAddForm, setShowAddForm] = useState(false);
 
   // Company form state
   const [companyForm, setCompanyForm] = useState({
@@ -226,6 +227,7 @@ export default function AdminPage() {
           comingSoon: true,
           backgroundColor: "transparent",
         });
+        setShowAddForm(false);
         fetchData();
       } else {
         alert("Failed to create company");
@@ -257,6 +259,7 @@ export default function AdminPage() {
   };
 
   const handleEditCompany = (company: Company) => {
+    setShowAddForm(false); // Close add form if open
     setEditingCompany(company);
     setEditForm({
       name: company.name,
@@ -268,6 +271,10 @@ export default function AdminPage() {
       comingSoon: company.comingSoon,
       backgroundColor: company.backgroundColor || "transparent",
     });
+    // Scroll to top after form opens
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
   };
 
   const handleUpdateCompany = async (e: React.FormEvent) => {
@@ -420,12 +427,57 @@ export default function AdminPage() {
             {/* Companies Tab */}
             {activeTab === "companies" && (
               <div className="space-y-8">
+                {/* Add Company Button */}
+                {!showAddForm && (
+                  <div className="flex justify-start">
+                    <button
+                      onClick={() => {
+                        setEditingCompany(null); // Close edit form if open
+                        setShowAddForm(true);
+                        // Scroll to top after form opens
+                        setTimeout(() => {
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }, 100);
+                      }}
+                      className="px-6 py-3 bg-gradient-to-r from-[#c4a052] to-[#8b7235] text-[#030303] font-semibold rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2"
+                    >
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                      </svg>
+                      Add New Company
+                    </button>
+                  </div>
+                )}
+
                 {/* Create Company Form */}
-                <div className="bg-white/[0.03] border border-white/10 rounded-xl p-6">
-                  <h2 className="text-xl font-semibold mb-4 text-[#e8d5a3]">
-                    Add New Company
-                  </h2>
-                  <form onSubmit={handleCreateCompany} className="space-y-4">
+                {showAddForm && (
+                  <div className="bg-white/[0.03] border border-white/10 rounded-xl p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <h2 className="text-xl font-semibold text-[#e8d5a3]">
+                        Add New Company
+                      </h2>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowAddForm(false);
+                          setCompanyForm({
+                            name: "",
+                            logo: "",
+                            description: "",
+                            website: "",
+                            order: 0,
+                            comingSoon: true,
+                            backgroundColor: "transparent",
+                          });
+                        }}
+                        className="text-white/50 hover:text-white transition-colors"
+                      >
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </button>
+                    </div>
+                    <form onSubmit={handleCreateCompany} className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
                         <label className="block text-sm text-white/70 mb-2">
@@ -635,6 +687,7 @@ export default function AdminPage() {
                     </button>
                   </form>
                 </div>
+                )}
 
                 {/* Edit Company Form */}
                 {editingCompany && (
