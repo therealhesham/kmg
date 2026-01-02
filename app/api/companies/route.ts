@@ -2,10 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 // GET all companies
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const { searchParams } = new URL(request.url);
+    const showAll = searchParams.get('all') === 'true';
+    
     const companies = await prisma.company.findMany({
-      where: { isActive: true },
+      where: showAll ? {} : { isActive: true },
       orderBy: { order: 'asc' },
     });
     return NextResponse.json(companies);

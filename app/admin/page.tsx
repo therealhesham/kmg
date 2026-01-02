@@ -69,6 +69,18 @@ export default function AdminPage() {
     comingSoon: true,
   });
 
+  // Edit company state
+  const [editingCompany, setEditingCompany] = useState<Company | null>(null);
+  const [editForm, setEditForm] = useState({
+    name: "",
+    logo: "",
+    description: "",
+    website: "",
+    order: 0,
+    isActive: true,
+    comingSoon: true,
+  });
+
   // Check authentication
   useEffect(() => {
     const checkAuth = async () => {
@@ -171,7 +183,8 @@ export default function AdminPage() {
     setIsLoading(true);
     try {
       if (activeTab === "companies") {
-        const res = await fetch("/api/companies");
+        // Fetch all companies for admin (including inactive ones)
+        const res = await fetch("/api/companies?all=true");
         const data = await res.json();
         setCompanies(data);
       } else if (activeTab === "settings") {
@@ -236,6 +249,84 @@ export default function AdminPage() {
     } catch (error) {
       console.error("Error deleting company:", error);
       alert("Failed to delete company");
+    }
+  };
+
+  const handleEditCompany = (company: Company) => {
+    setEditingCompany(company);
+    setEditForm({
+      name: company.name,
+      logo: company.logo,
+      description: company.description || "",
+      website: company.website || "",
+      order: company.order,
+      isActive: company.isActive,
+      comingSoon: company.comingSoon,
+    });
+  };
+
+  const handleUpdateCompany = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingCompany) return;
+
+    try {
+      const res = await fetch(`/api/companies/${editingCompany.id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(editForm),
+      });
+
+      if (res.ok) {
+        alert("Company updated successfully!");
+        setEditingCompany(null);
+        fetchData();
+      } else {
+        alert("Failed to update company");
+      }
+    } catch (error) {
+      console.error("Error updating company:", error);
+      alert("Failed to update company");
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setEditingCompany(null);
+    setEditForm({
+      name: "",
+      logo: "",
+      description: "",
+      website: "",
+      order: 0,
+      isActive: true,
+      comingSoon: true,
+    });
+  };
+
+  const handleEditImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        setEditForm({ ...editForm, logo: data.url });
+      } else {
+        alert("Failed to upload image");
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      alert("Failed to upload image");
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -448,6 +539,161 @@ export default function AdminPage() {
                   </form>
                 </div>
 
+                {/* Edit Company Form */}
+                {editingCompany && (
+                  <div className="bg-white/[0.03] border border-[#c4a052]/30 rounded-xl p-6">
+                    <h2 className="text-xl font-semibold mb-4 text-[#e8d5a3]">
+                      Edit Company: {editingCompany.name}
+                    </h2>
+                    <form onSubmit={handleUpdateCompany} className="space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm text-white/70 mb-2">
+                            Company Name *
+                          </label>
+                          <input
+                            type="text"
+                            required
+                            value={editForm.name}
+                            onChange={(e) =>
+                              setEditForm({ ...editForm, name: e.target.value })
+                            }
+                            className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm text-white/70 mb-2">
+                            Company Logo *
+                          </label>
+                          <div className="space-y-3">
+                            <input
+                              type="file"
+                              accept="image/*"
+                              onChange={handleEditImageUpload}
+                              disabled={isUploading}
+                              className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50 file:mr-4 file:py-1 file:px-3 file:rounded file:border-0 file:bg-[#c4a052] file:text-[#030303] file:font-medium file:cursor-pointer disabled:opacity-50"
+                            />
+                            {isUploading && (
+                              <p className="text-sm text-[#c4a052]">Uploading...</p>
+                            )}
+                            {editForm.logo && (
+                              <div className="flex items-center gap-3">
+                                <div className="w-16 h-16 relative bg-white/[0.05] rounded-lg overflow-hidden">
+                                  <Image
+                                    src={editForm.logo}
+                                    alt="Preview"
+                                    fill
+                                    className="object-contain p-2"
+                                  />
+                                </div>
+                                <span className="text-xs text-white/50 truncate flex-1">
+                                  {editForm.logo}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-sm text-white/70 mb-2">
+                            Website
+                          </label>
+                          <input
+                            type="url"
+                            value={editForm.website}
+                            onChange={(e) =>
+                              setEditForm({ ...editForm, website: e.target.value })
+                            }
+                            className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm text-white/70 mb-2">
+                            Order
+                          </label>
+                          <input
+                            type="number"
+                            value={editForm.order}
+                            onChange={(e) =>
+                              setEditForm({
+                                ...editForm,
+                                order: parseInt(e.target.value),
+                              })
+                            }
+                            className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-sm text-white/70 mb-2">
+                          Description
+                        </label>
+                        <textarea
+                          value={editForm.description}
+                          onChange={(e) =>
+                            setEditForm({
+                              ...editForm,
+                              description: e.target.value,
+                            })
+                          }
+                          rows={3}
+                          className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                        />
+                      </div>
+                      <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            id="editComingSoon"
+                            checked={editForm.comingSoon}
+                            onChange={(e) =>
+                              setEditForm({
+                                ...editForm,
+                                comingSoon: e.target.checked,
+                              })
+                            }
+                            className="w-4 h-4"
+                          />
+                          <label htmlFor="editComingSoon" className="text-sm text-white/70">
+                            Show "Coming Soon" overlay
+                          </label>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <input
+                            type="checkbox"
+                            id="editIsActive"
+                            checked={editForm.isActive}
+                            onChange={(e) =>
+                              setEditForm({
+                                ...editForm,
+                                isActive: e.target.checked,
+                              })
+                            }
+                            className="w-4 h-4"
+                          />
+                          <label htmlFor="editIsActive" className="text-sm text-white/70">
+                            Active
+                          </label>
+                        </div>
+                      </div>
+                      <div className="flex gap-3">
+                        <button
+                          type="submit"
+                          className="px-6 py-2 bg-gradient-to-r from-[#c4a052] to-[#8b7235] text-[#030303] font-semibold rounded-lg hover:opacity-90 transition-opacity"
+                        >
+                          Update Company
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleCancelEdit}
+                          className="px-6 py-2 bg-white/[0.05] text-white border border-white/10 font-semibold rounded-lg hover:bg-white/[0.08] transition-colors"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                )}
+
                 {/* Companies List */}
                 <div className="bg-white/[0.03] border border-white/10 rounded-xl p-6">
                   <h2 className="text-xl font-semibold mb-4 text-[#e8d5a3]">
@@ -473,17 +719,32 @@ export default function AdminPage() {
                         <p className="text-xs text-white/50 mb-2">
                           Order: {company.order}
                         </p>
-                        {company.comingSoon && (
-                          <span className="inline-block px-2 py-1 text-xs bg-[#c4a052]/20 text-[#e8d5a3] rounded mb-2">
-                            Coming Soon
-                          </span>
-                        )}
-                        <button
-                          onClick={() => handleDeleteCompany(company.id)}
-                          className="w-full mt-2 px-4 py-2 bg-red-500/20 text-red-400 rounded hover:bg-red-500/30 transition-colors text-sm"
-                        >
-                          Delete
-                        </button>
+                        <div className="flex flex-wrap gap-2 mb-3">
+                          {company.comingSoon && (
+                            <span className="inline-block px-2 py-1 text-xs bg-[#c4a052]/20 text-[#e8d5a3] rounded">
+                              Coming Soon
+                            </span>
+                          )}
+                          {!company.isActive && (
+                            <span className="inline-block px-2 py-1 text-xs bg-red-500/20 text-red-400 rounded">
+                              Inactive
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => handleEditCompany(company)}
+                            className="flex-1 px-4 py-2 bg-[#c4a052]/20 text-[#e8d5a3] rounded hover:bg-[#c4a052]/30 transition-colors text-sm"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => handleDeleteCompany(company.id)}
+                            className="flex-1 px-4 py-2 bg-red-500/20 text-red-400 rounded hover:bg-red-500/30 transition-colors text-sm"
+                          >
+                            Delete
+                          </button>
+                        </div>
                       </div>
                     ))}
                   </div>
