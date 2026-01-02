@@ -593,30 +593,77 @@ export default function AdminPage() {
                         </button>
                         
                         {/* Color Palette */}
-                        <div className="grid grid-cols-8 gap-2">
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs text-white/50">Color Palette (250+ colors)</span>
+                            <span className="text-xs text-white/30">Scroll for more ↓</span>
+                          </div>
+                          <div className="grid grid-cols-10 gap-2 max-h-[400px] overflow-y-auto pr-2 border border-white/5 rounded-lg p-3 bg-white/[0.02]">
                           {[
-                            "#ffffff", "#f5f5f5", "#e5e5e5", "#d4d4d4",
-                            "#030303", "#1a1a1a", "#404040", "#737373",
-                            "#ef4444", "#f97316", "#f59e0b", "#eab308",
-                            "#84cc16", "#22c55e", "#10b981", "#14b8a6",
-                            "#06b6d4", "#0ea5e9", "#3b82f6", "#6366f1",
-                            "#8b5cf6", "#a855f7", "#d946ef", "#ec4899",
-                            "#c4a052", "#e8d5a3", "#8b7235", "#d4af37",
-                            "#fef3c7", "#fde68a", "#fcd34d", "#fbbf24",
+                            // Whites & Grays (30 colors)
+                            "#ffffff", "#fafafa", "#f5f5f5", "#f0f0f0", "#e5e5e5", "#d9d9d9", "#d4d4d4", "#cccccc", "#c0c0c0", "#b3b3b3",
+                            "#a6a6a6", "#999999", "#8c8c8c", "#808080", "#737373", "#666666", "#595959", "#4d4d4d", "#404040", "#333333",
+                            "#262626", "#1a1a1a", "#0d0d0d", "#030303", "#f8f9fa", "#e9ecef", "#dee2e6", "#ced4da", "#adb5bd", "#6c757d",
+                            
+                            // Reds (30 colors)
+                            "#fee", "#fcc", "#faa", "#f88", "#f66", "#f44", "#ef4444", "#dc2626", "#b91c1c", "#991b1b",
+                            "#7f1d1d", "#450a0a", "#fca5a5", "#f87171", "#e11d48", "#be123c", "#9f1239", "#881337", "#4c0519", "#2d0a0f",
+                            "#ff0000", "#cc0000", "#990000", "#660000", "#ff3333", "#ff6666", "#ff9999", "#ffcccc", "#ffe6e6", "#fff0f0",
+                            
+                            // Oranges (30 colors)
+                            "#fff7ed", "#ffedd5", "#fed7aa", "#fdba74", "#fb923c", "#f97316", "#ea580c", "#c2410c", "#9a3412", "#7c2d12",
+                            "#fef3c7", "#fde68a", "#fcd34d", "#fbbf24", "#f59e0b", "#d97706", "#b45309", "#92400e", "#78350f", "#451a03",
+                            "#ff6600", "#ff8533", "#ffa366", "#ffc299", "#ffe0cc", "#ff9500", "#ffaa33", "#ffbf66", "#ffd499", "#ffeacc",
+                            
+                            // Yellows & Golds (30 colors)
+                            "#fefce8", "#fef9c3", "#fef08a", "#fde047", "#facc15", "#eab308", "#ca8a04", "#a16207", "#854d0e", "#713f12",
+                            "#c4a052", "#e8d5a3", "#d4af37", "#ffd700", "#ffed4e", "#fbbf25", "#f59e0c", "#8b7235", "#6b5a2d", "#4a3f1f",
+                            "#ffff00", "#ffff33", "#ffff66", "#ffff99", "#ffffcc", "#ffcc00", "#ffd633", "#ffe066", "#ffeb99", "#fff5cc",
+                            
+                            // Greens (30 colors)
+                            "#f0fdf4", "#dcfce7", "#bbf7d0", "#86efac", "#4ade80", "#22c55e", "#16a34a", "#15803d", "#166534", "#14532d",
+                            "#84cc16", "#65a30d", "#4d7c0f", "#3f6212", "#10b981", "#059669", "#047857", "#065f46", "#064e3b", "#022c22",
+                            "#00ff00", "#33ff33", "#66ff66", "#99ff99", "#ccffcd", "#00cc00", "#33cc33", "#66cc66", "#99cc99", "#ccffdd",
+                            
+                            // Teals & Cyans (30 colors)
+                            "#f0fdfa", "#ccfbf1", "#99f6e4", "#5eead4", "#2dd4bf", "#14b8a6", "#0d9488", "#0f766e", "#115e59", "#134e4a",
+                            "#ecfeff", "#cffafe", "#a5f3fc", "#67e8f9", "#22d3ee", "#06b6d4", "#0891b2", "#0e7490", "#155e75", "#164e63",
+                            "#00ffff", "#33ffff", "#66ffff", "#99ffff", "#ccffff", "#00cccc", "#33cccc", "#66cccc", "#99cccc", "#cceeff",
+                            
+                            // Blues (30 colors)
+                            "#eff6ff", "#dbeafe", "#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6", "#2563eb", "#1d4ed8", "#1e40af", "#1e3a8a",
+                            "#0ea5e9", "#0284c7", "#0369a1", "#075985", "#0c4a6e", "#082f49", "#38bdf8", "#7dd3fc", "#0891b2", "#164e63",
+                            "#0000ff", "#3333ff", "#6666ff", "#9999ff", "#ccccff", "#0000cc", "#3333cc", "#6666cc", "#9999cc", "#ccddff",
+                            
+                            // Indigos & Purples (30 colors)
+                            "#eef2ff", "#e0e7ff", "#c7d2fe", "#a5b4fc", "#818cf8", "#6366f1", "#4f46e5", "#4338ca", "#3730a3", "#312e81",
+                            "#f5f3ff", "#ede9fe", "#ddd6fe", "#c4b5fd", "#a78bfa", "#8b5cf6", "#7c3aed", "#6d28d9", "#5b21b6", "#4c1d95",
+                            "#8000ff", "#9933ff", "#b366ff", "#cc99ff", "#e6ccff", "#6600cc", "#7f33cc", "#9966cc", "#b399cc", "#cccce6",
+                            
+                            // Magentas & Pinks (30 colors)
+                            "#fdf4ff", "#fae8ff", "#f5d0fe", "#f0abfc", "#e879f9", "#d946ef", "#c026d3", "#a21caf", "#86198f", "#701a75",
+                            "#fdf2f8", "#fce7f3", "#fbcfe8", "#f9a8d4", "#f472b6", "#ec4899", "#db2777", "#be185d", "#9d174d", "#831843",
+                            "#ff00ff", "#ff33ff", "#ff66ff", "#ff99ff", "#ffccff", "#cc00cc", "#cc33cc", "#cc66cc", "#cc99cc", "#ccbbff",
+                            
+                            // Browns & Earthy (30 colors)
+                            "#fef2f2", "#fee2e2", "#fecaca", "#fca5a5", "#b91c1c", "#7f1d1d", "#78350f", "#92400e", "#b45309", "#d97706",
+                            "#a16207", "#854d0e", "#713f12", "#451a03", "#292524", "#1c1917", "#57534e", "#78716c", "#a8a29e", "#d6d3d1",
+                            "#8b4513", "#a0522d", "#cd853f", "#deb887", "#f4a460", "#654321", "#704214", "#7b3f00", "#8b4514", "#9c661f",
                           ].map((color) => (
                             <button
                               key={color}
                               type="button"
                               onClick={() => setCompanyForm({ ...companyForm, backgroundColor: color })}
-                              className={`w-10 h-10 rounded-lg border-2 transition-all hover:scale-110 ${
+                              className={`w-9 h-9 rounded-lg border-2 transition-all hover:scale-110 hover:z-10 relative ${
                                 companyForm.backgroundColor === color
-                                  ? "border-[#c4a052] ring-2 ring-[#c4a052]/50"
+                                  ? "border-[#c4a052] ring-2 ring-[#c4a052]/50 scale-110 z-10"
                                   : "border-white/20"
                               }`}
                               style={{ backgroundColor: color }}
                               title={color}
                             />
                           ))}
+                          </div>
                         </div>
                         {/* Custom Color Input */}
                         <div className="flex items-center gap-3">
@@ -811,30 +858,77 @@ export default function AdminPage() {
                           </button>
                           
                           {/* Color Palette */}
-                          <div className="grid grid-cols-8 gap-2">
+                          <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs text-white/50">Color Palette (250+ colors)</span>
+                              <span className="text-xs text-white/30">Scroll for more ↓</span>
+                            </div>
+                            <div className="grid grid-cols-10 gap-2 max-h-[400px] overflow-y-auto pr-2 border border-white/5 rounded-lg p-3 bg-white/[0.02]">
                             {[
-                              "#ffffff", "#f5f5f5", "#e5e5e5", "#d4d4d4",
-                              "#030303", "#1a1a1a", "#404040", "#737373",
-                              "#ef4444", "#f97316", "#f59e0b", "#eab308",
-                              "#84cc16", "#22c55e", "#10b981", "#14b8a6",
-                              "#06b6d4", "#0ea5e9", "#3b82f6", "#6366f1",
-                              "#8b5cf6", "#a855f7", "#d946ef", "#ec4899",
-                              "#c4a052", "#e8d5a3", "#8b7235", "#d4af37",
-                              "#fef3c7", "#fde68a", "#fcd34d", "#fbbf24",
+                              // Whites & Grays (30 colors)
+                              "#ffffff", "#fafafa", "#f5f5f5", "#f0f0f0", "#e5e5e5", "#d9d9d9", "#d4d4d4", "#cccccc", "#c0c0c0", "#b3b3b3",
+                              "#a6a6a6", "#999999", "#8c8c8c", "#808080", "#737373", "#666666", "#595959", "#4d4d4d", "#404040", "#333333",
+                              "#262626", "#1a1a1a", "#0d0d0d", "#030303", "#f8f9fa", "#e9ecef", "#dee2e6", "#ced4da", "#adb5bd", "#6c757d",
+                              
+                              // Reds (30 colors)
+                              "#fee", "#fcc", "#faa", "#f88", "#f66", "#f44", "#ef4444", "#dc2626", "#b91c1c", "#991b1b",
+                              "#7f1d1d", "#450a0a", "#fca5a5", "#f87171", "#e11d48", "#be123c", "#9f1239", "#881337", "#4c0519", "#2d0a0f",
+                              "#ff0000", "#cc0000", "#990000", "#660000", "#ff3333", "#ff6666", "#ff9999", "#ffcccc", "#ffe6e6", "#fff0f0",
+                              
+                              // Oranges (30 colors)
+                              "#fff7ed", "#ffedd5", "#fed7aa", "#fdba74", "#fb923c", "#f97316", "#ea580c", "#c2410c", "#9a3412", "#7c2d12",
+                              "#fef3c7", "#fde68a", "#fcd34d", "#fbbf24", "#f59e0b", "#d97706", "#b45309", "#92400e", "#78350f", "#451a03",
+                              "#ff6600", "#ff8533", "#ffa366", "#ffc299", "#ffe0cc", "#ff9500", "#ffaa33", "#ffbf66", "#ffd499", "#ffeacc",
+                              
+                              // Yellows & Golds (30 colors)
+                              "#fefce8", "#fef9c3", "#fef08a", "#fde047", "#facc15", "#eab308", "#ca8a04", "#a16207", "#854d0e", "#713f12",
+                              "#c4a052", "#e8d5a3", "#d4af37", "#ffd700", "#ffed4e", "#fbbf25", "#f59e0c", "#8b7235", "#6b5a2d", "#4a3f1f",
+                              "#ffff00", "#ffff33", "#ffff66", "#ffff99", "#ffffcc", "#ffcc00", "#ffd633", "#ffe066", "#ffeb99", "#fff5cc",
+                              
+                              // Greens (30 colors)
+                              "#f0fdf4", "#dcfce7", "#bbf7d0", "#86efac", "#4ade80", "#22c55e", "#16a34a", "#15803d", "#166534", "#14532d",
+                              "#84cc16", "#65a30d", "#4d7c0f", "#3f6212", "#10b981", "#059669", "#047857", "#065f46", "#064e3b", "#022c22",
+                              "#00ff00", "#33ff33", "#66ff66", "#99ff99", "#ccffcd", "#00cc00", "#33cc33", "#66cc66", "#99cc99", "#ccffdd",
+                              
+                              // Teals & Cyans (30 colors)
+                              "#f0fdfa", "#ccfbf1", "#99f6e4", "#5eead4", "#2dd4bf", "#14b8a6", "#0d9488", "#0f766e", "#115e59", "#134e4a",
+                              "#ecfeff", "#cffafe", "#a5f3fc", "#67e8f9", "#22d3ee", "#06b6d4", "#0891b2", "#0e7490", "#155e75", "#164e63",
+                              "#00ffff", "#33ffff", "#66ffff", "#99ffff", "#ccffff", "#00cccc", "#33cccc", "#66cccc", "#99cccc", "#cceeff",
+                              
+                              // Blues (30 colors)
+                              "#eff6ff", "#dbeafe", "#bfdbfe", "#93c5fd", "#60a5fa", "#3b82f6", "#2563eb", "#1d4ed8", "#1e40af", "#1e3a8a",
+                              "#0ea5e9", "#0284c7", "#0369a1", "#075985", "#0c4a6e", "#082f49", "#38bdf8", "#7dd3fc", "#0891b2", "#164e63",
+                              "#0000ff", "#3333ff", "#6666ff", "#9999ff", "#ccccff", "#0000cc", "#3333cc", "#6666cc", "#9999cc", "#ccddff",
+                              
+                              // Indigos & Purples (30 colors)
+                              "#eef2ff", "#e0e7ff", "#c7d2fe", "#a5b4fc", "#818cf8", "#6366f1", "#4f46e5", "#4338ca", "#3730a3", "#312e81",
+                              "#f5f3ff", "#ede9fe", "#ddd6fe", "#c4b5fd", "#a78bfa", "#8b5cf6", "#7c3aed", "#6d28d9", "#5b21b6", "#4c1d95",
+                              "#8000ff", "#9933ff", "#b366ff", "#cc99ff", "#e6ccff", "#6600cc", "#7f33cc", "#9966cc", "#b399cc", "#cccce6",
+                              
+                              // Magentas & Pinks (30 colors)
+                              "#fdf4ff", "#fae8ff", "#f5d0fe", "#f0abfc", "#e879f9", "#d946ef", "#c026d3", "#a21caf", "#86198f", "#701a75",
+                              "#fdf2f8", "#fce7f3", "#fbcfe8", "#f9a8d4", "#f472b6", "#ec4899", "#db2777", "#be185d", "#9d174d", "#831843",
+                              "#ff00ff", "#ff33ff", "#ff66ff", "#ff99ff", "#ffccff", "#cc00cc", "#cc33cc", "#cc66cc", "#cc99cc", "#ccbbff",
+                              
+                              // Browns & Earthy (30 colors)
+                              "#fef2f2", "#fee2e2", "#fecaca", "#fca5a5", "#b91c1c", "#7f1d1d", "#78350f", "#92400e", "#b45309", "#d97706",
+                              "#a16207", "#854d0e", "#713f12", "#451a03", "#292524", "#1c1917", "#57534e", "#78716c", "#a8a29e", "#d6d3d1",
+                              "#8b4513", "#a0522d", "#cd853f", "#deb887", "#f4a460", "#654321", "#704214", "#7b3f00", "#8b4514", "#9c661f",
                             ].map((color) => (
                               <button
                                 key={color}
                                 type="button"
                                 onClick={() => setEditForm({ ...editForm, backgroundColor: color })}
-                                className={`w-10 h-10 rounded-lg border-2 transition-all hover:scale-110 ${
+                                className={`w-9 h-9 rounded-lg border-2 transition-all hover:scale-110 hover:z-10 relative ${
                                   editForm.backgroundColor === color
-                                    ? "border-[#c4a052] ring-2 ring-[#c4a052]/50"
+                                    ? "border-[#c4a052] ring-2 ring-[#c4a052]/50 scale-110 z-10"
                                     : "border-white/20"
                                 }`}
                                 style={{ backgroundColor: color }}
                                 title={color}
                               />
                             ))}
+                            </div>
                           </div>
                           {/* Custom Color Input */}
                           <div className="flex items-center gap-3">
