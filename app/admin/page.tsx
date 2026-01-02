@@ -20,11 +20,17 @@ interface Settings {
   siteName: string;
   siteTagline: string;
   siteSubtagline: string;
+  aboutTitle: string;
+  aboutDescription: string;
   emailPlaceholder: string;
   emailButtonText: string;
   emailSuccessMsg: string;
   emailPromptMsg: string;
   portfolioTitle: string;
+  contactTitle: string;
+  contactEmail: string;
+  contactPhone: string;
+  contactAddress: string;
   footerText: string;
 }
 
@@ -491,79 +497,160 @@ export default function AdminPage() {
                 <h2 className="text-xl font-semibold mb-4 text-[#e8d5a3]">
                   Site Settings
                 </h2>
-                <form onSubmit={handleUpdateSettings} className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm text-white/70 mb-2">
-                        Site Name
-                      </label>
-                      <input
-                        type="text"
-                        value={settings.siteName}
-                        onChange={(e) =>
-                          setSettings({ ...settings, siteName: e.target.value })
-                        }
-                        className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
-                      />
+                <form onSubmit={handleUpdateSettings} className="space-y-6">
+                  {/* Hero Section Settings */}
+                  <div className="border-b border-white/10 pb-6">
+                    <h3 className="text-lg font-semibold text-[#c4a052] mb-4">Hero Section</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm text-white/70 mb-2">
+                          Site Name
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.siteName}
+                          onChange={(e) =>
+                            setSettings({ ...settings, siteName: e.target.value })
+                          }
+                          className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm text-white/70 mb-2">
+                          Site Tagline
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.siteTagline}
+                          onChange={(e) =>
+                            setSettings({ ...settings, siteTagline: e.target.value })
+                          }
+                          className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                        />
+                      </div>
+                      <div className="md:col-span-2">
+                        <label className="block text-sm text-white/70 mb-2">
+                          Site Subtagline
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.siteSubtagline}
+                          onChange={(e) =>
+                            setSettings({ ...settings, siteSubtagline: e.target.value })
+                          }
+                          className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <label className="block text-sm text-white/70 mb-2">
-                        Site Tagline
-                      </label>
-                      <input
-                        type="text"
-                        value={settings.siteTagline}
-                        onChange={(e) =>
-                          setSettings({ ...settings, siteTagline: e.target.value })
-                        }
-                        className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
-                      />
+                  </div>
+
+                  {/* About Section Settings */}
+                  <div className="border-b border-white/10 pb-6">
+                    <h3 className="text-lg font-semibold text-[#c4a052] mb-4">About Section</h3>
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm text-white/70 mb-2">
+                          About Title
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.aboutTitle}
+                          onChange={(e) =>
+                            setSettings({ ...settings, aboutTitle: e.target.value })
+                          }
+                          className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm text-white/70 mb-2">
+                          About Description
+                        </label>
+                        <textarea
+                          value={settings.aboutDescription}
+                          onChange={(e) =>
+                            setSettings({ ...settings, aboutDescription: e.target.value })
+                          }
+                          rows={4}
+                          className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <label className="block text-sm text-white/70 mb-2">
-                        Site Subtagline
-                      </label>
-                      <input
-                        type="text"
-                        value={settings.siteSubtagline}
-                        onChange={(e) =>
-                          setSettings({ ...settings, siteSubtagline: e.target.value })
-                        }
-                        className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
-                      />
+                  </div>
+
+                  {/* Email Section Settings */}
+                  <div className="border-b border-white/10 pb-6">
+                    <h3 className="text-lg font-semibold text-[#c4a052] mb-4">Email Subscription</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-sm text-white/70 mb-2">
+                          Email Placeholder
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.emailPlaceholder}
+                          onChange={(e) =>
+                            setSettings({
+                              ...settings,
+                              emailPlaceholder: e.target.value,
+                            })
+                          }
+                          className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm text-white/70 mb-2">
+                          Email Button Text
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.emailButtonText}
+                          onChange={(e) =>
+                            setSettings({
+                              ...settings,
+                              emailButtonText: e.target.value,
+                            })
+                          }
+                          className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm text-white/70 mb-2">
+                          Email Success Message
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.emailSuccessMsg}
+                          onChange={(e) =>
+                            setSettings({
+                              ...settings,
+                              emailSuccessMsg: e.target.value,
+                            })
+                          }
+                          className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm text-white/70 mb-2">
+                          Email Prompt Message
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.emailPromptMsg}
+                          onChange={(e) =>
+                            setSettings({
+                              ...settings,
+                              emailPromptMsg: e.target.value,
+                            })
+                          }
+                          className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <label className="block text-sm text-white/70 mb-2">
-                        Email Placeholder
-                      </label>
-                      <input
-                        type="text"
-                        value={settings.emailPlaceholder}
-                        onChange={(e) =>
-                          setSettings({
-                            ...settings,
-                            emailPlaceholder: e.target.value,
-                          })
-                        }
-                        className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm text-white/70 mb-2">
-                        Email Button Text
-                      </label>
-                      <input
-                        type="text"
-                        value={settings.emailButtonText}
-                        onChange={(e) =>
-                          setSettings({
-                            ...settings,
-                            emailButtonText: e.target.value,
-                          })
-                        }
-                        className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
-                      />
-                    </div>
+                  </div>
+
+                  {/* Portfolio Section Settings */}
+                  <div className="border-b border-white/10 pb-6">
+                    <h3 className="text-lg font-semibold text-[#c4a052] mb-4">Portfolio Section</h3>
                     <div>
                       <label className="block text-sm text-white/70 mb-2">
                         Portfolio Title
@@ -581,51 +668,84 @@ export default function AdminPage() {
                       />
                     </div>
                   </div>
-                  <div>
-                    <label className="block text-sm text-white/70 mb-2">
-                      Email Success Message
-                    </label>
-                    <input
-                      type="text"
-                      value={settings.emailSuccessMsg}
-                      onChange={(e) =>
-                        setSettings({
-                          ...settings,
-                          emailSuccessMsg: e.target.value,
-                        })
-                      }
-                      className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
-                    />
+
+                  {/* Contact Section Settings */}
+                  <div className="border-b border-white/10 pb-6">
+                    <h3 className="text-lg font-semibold text-[#c4a052] mb-4">Contact Section</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="md:col-span-2">
+                        <label className="block text-sm text-white/70 mb-2">
+                          Contact Title
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.contactTitle}
+                          onChange={(e) =>
+                            setSettings({ ...settings, contactTitle: e.target.value })
+                          }
+                          className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm text-white/70 mb-2">
+                          Contact Email
+                        </label>
+                        <input
+                          type="email"
+                          value={settings.contactEmail}
+                          onChange={(e) =>
+                            setSettings({ ...settings, contactEmail: e.target.value })
+                          }
+                          className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm text-white/70 mb-2">
+                          Contact Phone
+                        </label>
+                        <input
+                          type="tel"
+                          value={settings.contactPhone}
+                          onChange={(e) =>
+                            setSettings({ ...settings, contactPhone: e.target.value })
+                          }
+                          className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                        />
+                      </div>
+                      <div className="md:col-span-2">
+                        <label className="block text-sm text-white/70 mb-2">
+                          Contact Address
+                        </label>
+                        <input
+                          type="text"
+                          value={settings.contactAddress}
+                          onChange={(e) =>
+                            setSettings({ ...settings, contactAddress: e.target.value })
+                          }
+                          className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <label className="block text-sm text-white/70 mb-2">
-                      Email Prompt Message
-                    </label>
-                    <input
-                      type="text"
-                      value={settings.emailPromptMsg}
-                      onChange={(e) =>
-                        setSettings({
-                          ...settings,
-                          emailPromptMsg: e.target.value,
-                        })
-                      }
-                      className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
-                    />
+
+                  {/* Footer Settings */}
+                  <div className="pb-6">
+                    <h3 className="text-lg font-semibold text-[#c4a052] mb-4">Footer</h3>
+                    <div>
+                      <label className="block text-sm text-white/70 mb-2">
+                        Footer Text
+                      </label>
+                      <input
+                        type="text"
+                        value={settings.footerText}
+                        onChange={(e) =>
+                          setSettings({ ...settings, footerText: e.target.value })
+                        }
+                        className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                      />
+                    </div>
                   </div>
-                  <div>
-                    <label className="block text-sm text-white/70 mb-2">
-                      Footer Text
-                    </label>
-                    <input
-                      type="text"
-                      value={settings.footerText}
-                      onChange={(e) =>
-                        setSettings({ ...settings, footerText: e.target.value })
-                      }
-                      className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
-                    />
-                  </div>
+
                   <button
                     type="submit"
                     className="px-6 py-2 bg-gradient-to-r from-[#c4a052] to-[#8b7235] text-[#030303] font-semibold rounded-lg hover:opacity-90 transition-opacity"

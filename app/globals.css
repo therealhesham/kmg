@@ -61,3 +61,15 @@ body {
     opacity: 0.8;
   }
 }
+
+/* Perspective for 3D effects */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+/* Smooth transitions for all elements */
+@layer utilities {
+  .transition-elegant {
+    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
