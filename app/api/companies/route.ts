@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { name, logo, description, website, order, comingSoon } = body;
+    const { name, logo, description, website, order, comingSoon, backgroundColor } = body;
 
     const company = await prisma.company.create({
       data: {
@@ -35,6 +35,7 @@ export async function POST(request: NextRequest) {
         website,
         order: order || 0,
         comingSoon: comingSoon ?? true,
+        backgroundColor: backgroundColor || "transparent",
       },
     });
 

@@ -13,6 +13,7 @@ interface Company {
   order: number;
   isActive: boolean;
   comingSoon: boolean;
+  backgroundColor: string | null;
 }
 
 interface Settings {
@@ -67,6 +68,7 @@ export default function AdminPage() {
     website: "",
     order: 0,
     comingSoon: true,
+    backgroundColor: "transparent",
   });
 
   // Edit company state
@@ -79,6 +81,7 @@ export default function AdminPage() {
     order: 0,
     isActive: true,
     comingSoon: true,
+    backgroundColor: "transparent",
   });
 
   // Check authentication
@@ -221,6 +224,7 @@ export default function AdminPage() {
           website: "",
           order: 0,
           comingSoon: true,
+          backgroundColor: "transparent",
         });
         fetchData();
       } else {
@@ -262,6 +266,7 @@ export default function AdminPage() {
       order: company.order,
       isActive: company.isActive,
       comingSoon: company.comingSoon,
+      backgroundColor: company.backgroundColor || "transparent",
     });
   };
 
@@ -299,6 +304,7 @@ export default function AdminPage() {
       order: 0,
       isActive: true,
       comingSoon: true,
+      backgroundColor: "transparent",
     });
   };
 
@@ -513,6 +519,97 @@ export default function AdminPage() {
                         className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
                       />
                     </div>
+                    <div>
+                      <label className="block text-sm text-white/70 mb-3">
+                        Logo Background Color
+                      </label>
+                      <div className="space-y-3">
+                        {/* No Color Option */}
+                        <button
+                          type="button"
+                          onClick={() => setCompanyForm({ ...companyForm, backgroundColor: "transparent" })}
+                          className={`w-full px-4 py-2 rounded-lg border-2 transition-all hover:scale-[1.02] flex items-center justify-center gap-2 ${
+                            companyForm.backgroundColor === "transparent"
+                              ? "border-[#c4a052] ring-2 ring-[#c4a052]/50 bg-[#c4a052]/10"
+                              : "border-white/20 bg-white/[0.02]"
+                          }`}
+                        >
+                          <svg className="w-5 h-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                          </svg>
+                          <span className="text-sm text-white/70">No Background Color (Transparent)</span>
+                        </button>
+                        
+                        {/* Color Palette */}
+                        <div className="grid grid-cols-8 gap-2">
+                          {[
+                            "#ffffff", "#f5f5f5", "#e5e5e5", "#d4d4d4",
+                            "#030303", "#1a1a1a", "#404040", "#737373",
+                            "#ef4444", "#f97316", "#f59e0b", "#eab308",
+                            "#84cc16", "#22c55e", "#10b981", "#14b8a6",
+                            "#06b6d4", "#0ea5e9", "#3b82f6", "#6366f1",
+                            "#8b5cf6", "#a855f7", "#d946ef", "#ec4899",
+                            "#c4a052", "#e8d5a3", "#8b7235", "#d4af37",
+                            "#fef3c7", "#fde68a", "#fcd34d", "#fbbf24",
+                          ].map((color) => (
+                            <button
+                              key={color}
+                              type="button"
+                              onClick={() => setCompanyForm({ ...companyForm, backgroundColor: color })}
+                              className={`w-10 h-10 rounded-lg border-2 transition-all hover:scale-110 ${
+                                companyForm.backgroundColor === color
+                                  ? "border-[#c4a052] ring-2 ring-[#c4a052]/50"
+                                  : "border-white/20"
+                              }`}
+                              style={{ backgroundColor: color }}
+                              title={color}
+                            />
+                          ))}
+                        </div>
+                        {/* Custom Color Input */}
+                        <div className="flex items-center gap-3">
+                          <input
+                            type="color"
+                            value={companyForm.backgroundColor}
+                            onChange={(e) =>
+                              setCompanyForm({ ...companyForm, backgroundColor: e.target.value })
+                            }
+                            className="w-16 h-10 rounded-lg cursor-pointer border border-white/10"
+                          />
+                          <input
+                            type="text"
+                            value={companyForm.backgroundColor}
+                            onChange={(e) =>
+                              setCompanyForm({ ...companyForm, backgroundColor: e.target.value })
+                            }
+                            placeholder="#ffffff"
+                            className="flex-1 px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50 font-mono text-sm"
+                          />
+                        </div>
+                        {/* Preview */}
+                        {companyForm.logo && (
+                          <div className="flex items-center gap-3">
+                            <span className="text-xs text-white/50">Preview:</span>
+                            <div 
+                              className="w-20 h-20 relative rounded-lg overflow-hidden border border-white/10"
+                              style={{ 
+                                backgroundColor: companyForm.backgroundColor === "transparent" ? "transparent" : companyForm.backgroundColor,
+                                backgroundImage: companyForm.backgroundColor === "transparent" 
+                                  ? "repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 50% / 20px 20px"
+                                  : "none"
+                              }}
+                            >
+                              <Image
+                                src={companyForm.logo}
+                                alt="Preview"
+                                fill
+                                className="object-contain p-2"
+                              />
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                     <div className="flex items-center gap-2">
                       <input
                         type="checkbox"
@@ -639,6 +736,97 @@ export default function AdminPage() {
                           className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
                         />
                       </div>
+                      <div>
+                        <label className="block text-sm text-white/70 mb-3">
+                          Logo Background Color
+                        </label>
+                        <div className="space-y-3">
+                          {/* No Color Option */}
+                          <button
+                            type="button"
+                            onClick={() => setEditForm({ ...editForm, backgroundColor: "transparent" })}
+                            className={`w-full px-4 py-2 rounded-lg border-2 transition-all hover:scale-[1.02] flex items-center justify-center gap-2 ${
+                              editForm.backgroundColor === "transparent"
+                                ? "border-[#c4a052] ring-2 ring-[#c4a052]/50 bg-[#c4a052]/10"
+                                : "border-white/20 bg-white/[0.02]"
+                            }`}
+                          >
+                            <svg className="w-5 h-5 text-white/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                            </svg>
+                            <span className="text-sm text-white/70">No Background Color (Transparent)</span>
+                          </button>
+                          
+                          {/* Color Palette */}
+                          <div className="grid grid-cols-8 gap-2">
+                            {[
+                              "#ffffff", "#f5f5f5", "#e5e5e5", "#d4d4d4",
+                              "#030303", "#1a1a1a", "#404040", "#737373",
+                              "#ef4444", "#f97316", "#f59e0b", "#eab308",
+                              "#84cc16", "#22c55e", "#10b981", "#14b8a6",
+                              "#06b6d4", "#0ea5e9", "#3b82f6", "#6366f1",
+                              "#8b5cf6", "#a855f7", "#d946ef", "#ec4899",
+                              "#c4a052", "#e8d5a3", "#8b7235", "#d4af37",
+                              "#fef3c7", "#fde68a", "#fcd34d", "#fbbf24",
+                            ].map((color) => (
+                              <button
+                                key={color}
+                                type="button"
+                                onClick={() => setEditForm({ ...editForm, backgroundColor: color })}
+                                className={`w-10 h-10 rounded-lg border-2 transition-all hover:scale-110 ${
+                                  editForm.backgroundColor === color
+                                    ? "border-[#c4a052] ring-2 ring-[#c4a052]/50"
+                                    : "border-white/20"
+                                }`}
+                                style={{ backgroundColor: color }}
+                                title={color}
+                              />
+                            ))}
+                          </div>
+                          {/* Custom Color Input */}
+                          <div className="flex items-center gap-3">
+                            <input
+                              type="color"
+                              value={editForm.backgroundColor}
+                              onChange={(e) =>
+                                setEditForm({ ...editForm, backgroundColor: e.target.value })
+                              }
+                              className="w-16 h-10 rounded-lg cursor-pointer border border-white/10"
+                            />
+                            <input
+                              type="text"
+                              value={editForm.backgroundColor}
+                              onChange={(e) =>
+                                setEditForm({ ...editForm, backgroundColor: e.target.value })
+                              }
+                              placeholder="#ffffff"
+                              className="flex-1 px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50 font-mono text-sm"
+                            />
+                          </div>
+                          {/* Preview */}
+                          {editForm.logo && (
+                            <div className="flex items-center gap-3">
+                              <span className="text-xs text-white/50">Preview:</span>
+                              <div 
+                                className="w-20 h-20 relative rounded-lg overflow-hidden border border-white/10"
+                                style={{ 
+                                  backgroundColor: editForm.backgroundColor === "transparent" ? "transparent" : editForm.backgroundColor,
+                                  backgroundImage: editForm.backgroundColor === "transparent" 
+                                    ? "repeating-conic-gradient(#808080 0% 25%, transparent 0% 50%) 50% / 20px 20px"
+                                    : "none"
+                                }}
+                              >
+                                <Image
+                                  src={editForm.logo}
+                                  alt="Preview"
+                                  fill
+                                  className="object-contain p-2"
+                                />
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
                       <div className="flex items-center gap-6">
                         <div className="flex items-center gap-2">
                           <input
@@ -705,7 +893,15 @@ export default function AdminPage() {
                         key={company.id}
                         className="bg-white/[0.02] border border-white/10 rounded-lg p-4"
                       >
-                        <div className="aspect-square relative mb-3 bg-white/[0.05] rounded-lg overflow-hidden">
+                        <div 
+                          className="aspect-square relative mb-3 rounded-lg overflow-hidden"
+                          style={{ 
+                            backgroundColor: company.backgroundColor === "transparent" ? "transparent" : (company.backgroundColor || "#ffffff"),
+                            backgroundImage: company.backgroundColor === "transparent" 
+                              ? "repeating-conic-gradient(#404040 0% 25%, #1a1a1a 0% 50%) 50% / 20px 20px"
+                              : "none"
+                          }}
+                        >
                           <Image
                             src={company.logo}
                             alt={company.name}

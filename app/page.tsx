@@ -12,6 +12,7 @@ interface Company {
   order: number;
   isActive: boolean;
   comingSoon: boolean;
+  backgroundColor: string | null;
 }
 
 interface Settings {
@@ -285,12 +286,14 @@ export default function Home() {
                     >
                       {/* Front side - Logo */}
                       <div 
-                        className="absolute inset-0 rounded-xl border border-white/[0.04] bg-white/[0.02] backdrop-blur-sm p-8 flex items-center justify-center transition-all duration-700 overflow-hidden"
+                        className="absolute inset-0 rounded-xl border border-white/[0.04] backdrop-blur-sm p-8 flex items-center justify-center transition-all duration-700 overflow-hidden"
                         style={{
                           backfaceVisibility: 'hidden',
                           transform: 'rotateY(0deg)',
                           borderColor: flippedCards.has(company.id) ? 'rgba(196, 160, 82, 0.2)' : undefined,
-                          backgroundColor: flippedCards.has(company.id) ? 'rgba(255, 255, 255, 0.04)' : undefined
+                          backgroundColor: company.backgroundColor === "transparent" 
+                            ? 'rgba(255, 255, 255, 0.02)' 
+                            : (company.backgroundColor || '#ffffff')
                         }}
                       >
                         <div className="relative w-full h-full opacity-80 transition-opacity duration-300">

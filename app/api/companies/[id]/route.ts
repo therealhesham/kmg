@@ -37,7 +37,7 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { name, logo, description, website, order, isActive, comingSoon } = body;
+    const { name, logo, description, website, order, isActive, comingSoon, backgroundColor } = body;
 
     const company = await prisma.company.update({
       where: { id },
@@ -49,6 +49,7 @@ export async function PUT(
         order,
         isActive,
         comingSoon,
+        backgroundColor,
       },
     });
 
