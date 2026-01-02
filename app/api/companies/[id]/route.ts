@@ -4,11 +4,12 @@ import { prisma } from '@/lib/prisma';
 // GET single company
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const company = await prisma.company.findUnique({
-      where: { id: params.id },
+      where: { id },
     });
 
     if (!company) {
@@ -31,14 +32,15 @@ export async function GET(
 // PUT update company
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     const body = await request.json();
     const { name, logo, description, website, order, isActive, comingSoon } = body;
 
     const company = await prisma.company.update({
-      where: { id: params.id },
+      where: { id },
       data: {
         name,
         logo,
@@ -63,11 +65,12 @@ export async function PUT(
 // DELETE company
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
     await prisma.company.delete({
-      where: { id: params.id },
+      where: { id },
     });
 
     return NextResponse.json({ message: 'Company deleted successfully' });
