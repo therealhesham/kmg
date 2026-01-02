@@ -1,0 +1,489 @@
+generator client {
+  provider      = "prisma-client-js"
+  // binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id          String   @id @default(cuid())
+  name        String
+  logo        String 
+  description String?  @db.Text
+  website     String?
+  order       Int      @default(0) 
+  isActive    Boolean  @default(true)
+  comingSoon  Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("companies")
+}
+
+model Settings {
+  id                String   @id @default(cuid())
+  siteName          String   @default("KMG Investment")
+  siteTagline       String   @default("Investment Excellence")
+  siteSubtagline    String   @default("Building Tomorrow's Leaders")
+  emailPlaceholder  String   @default("Enter your email address")
+  emailButtonText   String   @default("Notify Me")
+  emailSuccessMsg   String   @default("Thank you! We'll notify you when we launch.")
+  emailPromptMsg    String   @default("Be the first to experience the extraordinary")
+  portfolioTitle    String   @default("Our Portfolio")
+  footerText        String   @default("© 2024 · All Rights Reserved")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@map("settings")
+}
+
+model Subscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+
+  @@map("subscribers")
+}
+
+
+model HomeContent {
+  id            String   @id @default(cuid())
+  heroTitle     String   @default("ظلال المدينة")
+  heroTitleEn   String   @default("City Shadows")
+  heroSubtitle  String   @default("نصنع الفخامة والتميّز في كل تفصيلة منذ أكثر من خمسة عشر عامًا")
+  heroSubtitleEn String  @default("Crafting luxury and excellence in every detail for over fifteen years")
+  heroLogo      String   @default("/capture.png")
+  aboutTitle    String   @default("من نحن")
+  aboutTitleEn  String   @default("About Us")
+  aboutP1       String   @db.Text
+  aboutP1En     String   @db.Text
+  aboutP2       String   @db.Text
+  aboutP2En     String   @db.Text
+  visionTitle   String   @default("رؤيتنا · رسالتنا · قيمنا")
+  visionTitleEn String   @default("Our Vision · Mission · Values")
+  visionVision  String   @default("الرؤية")
+  visionVisionEn String  @default("Vision")
+  visionVisionText String @db.Text
+  visionVisionTextEn String @db.Text
+  visionMission String   @default("الرسالة")
+  visionMissionEn String @default("Mission")
+  visionMissionText String @db.Text
+  visionMissionTextEn String @db.Text
+  visionValues  String   @default("القيم")
+  visionValuesEn String  @default("Values")
+  visionValuesText String @default("التميّز • الأصالة • الالتزام • الابتكار • الثقة")
+  visionValuesTextEn String @default("Excellence • Authenticity • Commitment • Innovation • Trust")
+  
+  quoteTitle    String   @default("في ظلال المدينة")
+  quoteTitleEn  String   @default("At City Shadows")
+  quoteText     String   @db.Text
+  quoteTextEn   String   @db.Text
+  quoteAuthor   String   @default("المدير التنفيذي")
+  quoteAuthorEn String   @default("Managing Director")
+  
+  statsTitle    String   @default("إنجازاتنا بالأرقام")
+  statsTitleEn  String   @default("Our Achievements in Numbers")
+  statsProjects String   @default("مشروع منجز")
+  statsProjectsEn String @default("Completed Projects")
+  statsYears    String   @default("سنوات الخبرة")
+  statsYearsEn  String   @default("Years of Experience")
+  statsCountries String  @default("دولة حول العالم")
+  statsCountriesEn String @default("Countries Worldwide")
+  statsAwards   String   @default("جائزة عالمية")
+  statsAwardsEn String   @default("International Awards")
+  statsProjectsNum String @default("250+")
+  statsYearsNum String   @default("15+")
+  statsCountriesNum String @default("48")
+  statsAwardsNum String   @default("22")
+  
+  servicesTitle String @default("خدماتنا")
+  servicesTitleEn String @default("Our Services")
+  servicesSubtitle String @default("نقدم مجموعة متكاملة من الخدمات المعمارية والهندسية")
+  servicesSubtitleEn String @default("We offer a comprehensive range of architectural and engineering services")
+  
+  service1Title String @default("التصميم المعماري")
+  service1TitleEn String @default("Architectural Design")
+  service1Desc String @db.Text
+  service1DescEn String @db.Text
+  
+  service2Title String @default("التصميم الداخلي")
+  service2TitleEn String @default("Interior Design")
+  service2Desc String @db.Text
+  service2DescEn String @db.Text
+  
+  service3Title String @default("الإشراف الهندسي")
+  service3TitleEn String @default("Engineering Supervision")
+  service3Desc String @db.Text
+  service3DescEn String @db.Text
+  
+  service4Title String @default("الاستشارات الهندسية")
+  service4TitleEn String @default("Engineering Consultancy")
+  service4Desc String @db.Text
+  service4DescEn String @db.Text
+  
+  projectsTitle String @default("مشاريعنا")
+  projectsTitleEn String @default("Our Projects")
+  projectsSubtitle String @default("نفخر بتقديم مشاريع استثنائية حول العالم")
+  projectsSubtitleEn String @default("We are proud to present exceptional projects around the world")
+  projectsViewMore String @default("المزيد من المشاريع")
+  projectsViewMoreEn String @default("View More Projects")
+  
+  project1Title String @default("فيلا فاخرة - دبي")
+  project1TitleEn String @default("Luxury Villa - Dubai")
+  project1Desc String @db.Text
+  project1DescEn String @db.Text
+  project1Image String @default("https://res.cloudinary.com/duo8svqci/image/upload/v1763643456/dattvtozngwdrakiop4j.png")
+  
+  project2Title String @default("مجمع سكني - الرياض")
+  project2TitleEn String @default("Residential Complex - Riyadh")
+  project2Desc String @db.Text
+  project2DescEn String @db.Text
+  project2Image String @default("https://res.cloudinary.com/duo8svqci/image/upload/v1763643456/dattvtozngwdrakiop4j.png")
+  
+  project3Title String @default("مركز تجاري - جدة")
+  project3TitleEn String @default("Shopping Center - Jeddah")
+  project3Desc String @db.Text
+  project3DescEn String @db.Text
+  project3Image String @default("https://res.cloudinary.com/duo8svqci/image/upload/v1763643456/dattvtozngwdrakiop4j.png")
+  
+  footerCopyright String @default("© 2025 اسم الشركة – جميع الحقوق محفوظة")
+  footerCopyrightEn String @default("© 2025 Company Name – All Rights Reserved")
+  footerLogo     String   @default("/capture.png")
+  headerLogo      String   @default("/capture.png")
+  updatedAt    DateTime @updatedAt
+  createdAt    DateTime @default(now())
+}
+
+model AboutUs {
+  id                String   @id @default(cuid())
+  heroTitle         String   @default("من نحن")
+  heroTitleEn       String   @default("About Us")
+  heroSubtitle      String?   @db.Text
+  heroSubtitleEn    String   @db.Text
+  heroImage         String   @default("/capture.png")
+  
+  storyTitle        String   @default("قصتنا")
+  storyTitleEn      String   @default("Our Story")
+  storyContent      String   @db.Text
+  storyContentEn    String   @db.Text
+  storyImage        String   @default("/capture.png")
+  
+  missionTitle      String   @default("رسالتنا")
+  missionTitleEn    String   @default("Our Mission")
+  missionContent    String   @db.Text
+  missionContentEn  String   @db.Text
+  
+  visionTitle       String   @default("رؤيتنا")
+  visionTitleEn     String   @default("Our Vision")
+  visionContent     String   @db.Text
+  visionContentEn   String   @db.Text
+  
+  whyChooseTitle    String   @default("لماذا تختارنا")
+  whyChooseTitleEn  String   @default("Why Choose Us")
+  whyChoosePoint1   String   @default("خبرة أكثر من 15 عامًا في التصميم المعماري الفاخر")
+  whyChoosePoint1En String   @default("Over 15 years of experience in luxury architectural design")
+  whyChoosePoint2   String   @default("أكثر من 250 مشروعًا ناجحًا في 48 دولة")
+  whyChoosePoint2En String   @default("Over 250 successful projects in 48 countries")
+  whyChoosePoint3   String   @default("22 جائزة عالمية في التصميم المعماري")
+  whyChoosePoint3En String   @default("22 international awards in architectural design")
+  whyChoosePoint4   String   @default("فريق من أفضل المهندسين والمصممين المعماريين")
+  whyChoosePoint4En String   @default("A team of the best engineers and architects")
+  
+  valuesTitle       String   @default("قيمنا")
+  valuesTitleEn      String   @default("Our Values")
+  valuesContent      String   @default("التميّز • الأصالة • الالتزام • الابتكار • الثقة • الاستدامة")
+  valuesContentEn    String   @default("Excellence • Authenticity • Commitment • Innovation • Trust • Sustainability")
+  
+  milestone1Year    String   @default("2008")
+  milestone1Title   String   @default("التأسيس")
+  milestone1TitleEn String   @default("Foundation")
+  milestone1Desc    String   @db.Text
+  milestone1DescEn  String   @db.Text
+  
+  milestone2Year    String   @default("2015")
+  milestone2Title   String   @default("التوسع الدولي")
+  milestone2TitleEn String   @default("International Expansion")
+  milestone2Desc    String   @db.Text
+  milestone2DescEn  String   @db.Text
+  
+  milestone3Year    String   @default("2020")
+  milestone3Title   String   @default("الجوائز العالمية")
+  milestone3TitleEn String   @default("International Awards")
+  milestone3Desc    String   @db.Text
+  milestone3DescEn  String   @db.Text
+  
+  milestone4Year    String   @default("2025")
+  milestone4Title   String   @default("الريادة")
+  milestone4TitleEn String   @default("Leadership")
+  milestone4Desc    String   @db.Text
+  milestone4DescEn  String   @db.Text
+  
+  foundersTitle     String   @default("المؤسسون")
+  foundersTitleEn   String   @default("Founders")
+  founder1Name      String   @default("أحمد محمد")
+  founder1NameEn    String   @default("Ahmed Mohammed")
+  founder1Position  String   @default("المؤسس والرئيس التنفيذي")
+  founder1PositionEn String  @default("Founder & CEO")
+  founder1Image     String   @default("/capture.png")
+  founder1Bio        String   @db.Text
+  founder1BioEn     String   @db.Text
+  
+  founder2Name      String   @default("محمد أحمد")
+  founder2NameEn    String   @default("Mohammed Ahmed")
+  founder2Position  String   @default("المؤسس الشريك والمدير التنفيذي")
+  founder2PositionEn String  @default("Co-Founder & Executive Director")
+  founder2Image     String   @default("/capture.png")
+  founder2Bio        String   @db.Text
+  founder2BioEn     String   @db.Text
+  
+  updatedAt         DateTime @updatedAt
+  createdAt         DateTime @default(now())
+}
+
+model SiteSettings {
+  id                String   @id @default(cuid())
+  
+  primaryFont       String   @default("Arial, sans-serif")
+  headingFont       String   @default("Arial, sans-serif")
+  bodyFont          String   @default("Arial, sans-serif")
+  
+  showHome          Boolean  @default(true)
+  showAbout         Boolean  @default(true)
+  showServices      Boolean  @default(true)
+  showProjects      Boolean  @default(true)
+  showContact       Boolean  @default(true)
+  showLanguageSwitcher Boolean @default(true)
+  
+  whatsappNumber    String?  @default("5")
+  
+  smtpHost          String?  @default("")
+  smtpPort          String?  @default("587")
+  smtpUser          String?  @default("")
+  smtpPass          String?  @default("")
+  fromEmail         String?  @default("")
+  emailEnabled      Boolean  @default(false)
+  
+  updatedAt         DateTime @updatedAt
+  createdAt         DateTime @default(now())
+}
+
+model ContactUs {
+  id                String   @id @default(cuid())
+  
+  heroTitle         String   @default("تواصلوا معنا")
+  heroTitleEn       String   @default("Contact Us")
+  heroSubtitle      String   @default("نحب أن نسمع منكم. تواصلوا معنا وابدؤوا محادثة.")
+  heroSubtitleEn    String   @default("We'd love to hear from you. Get in touch with us and let's start a conversation.")
+  
+  formTitle         String   @default("تواصلوا معنا")
+  formTitleEn       String   @default("Contact Us")
+  nameLabel         String   @default("الاسم الكامل")
+  nameLabelEn       String   @default("Full Name")
+  emailLabel        String   @default("البريد الإلكتروني")
+  emailLabelEn      String   @default("Email Address")
+  phoneLabel        String   @default("رقم الهاتف")
+  phoneLabelEn      String   @default("Phone Number")
+  subjectLabel      String   @default("الموضوع")
+  subjectLabelEn    String   @default("Subject")
+  messageLabel      String   @default("الرسالة")
+  messageLabelEn    String   @default("Message")
+  sendButton        String   @default("إرسال الرسالة")
+  sendButtonEn      String   @default("Send Message")
+  sendingButton     String   @default("جاري الإرسال...")
+  sendingButtonEn   String   @default("Sending...")
+  
+  infoTitle         String   @default("تواصلوا معنا")
+  infoTitleEn       String   @default("Get in Touch")
+  infoDescription   String   @db.Text
+  infoDescriptionEn String   @db.Text
+  
+  addressLabel      String   @default("العنوان")
+  addressLabelEn    String   @default("Address")
+  addressValue      String   @default("عنوان شركتك")
+  addressValueEn    String   @default("Your Company Address")
+  phoneLabelInfo    String   @default("الهاتف")
+  phoneLabelInfoEn  String   @default("Phone")
+  phoneValue        String   @default("+1 234 567 8900")
+  emailLabelInfo    String   @default("البريد الإلكتروني")
+  emailLabelInfoEn  String   @default("Email")
+  emailValue        String   @default("info@company.com")
+  hoursLabel        String   @default("ساعات العمل")
+  hoursLabelEn      String   @default("Working Hours")
+  hoursValue        String   @default("الأحد - الخميس: 9:00 صباحاً - 6:00 مساءً")
+  hoursValueEn      String   @default("Sunday - Thursday: 9:00 AM - 6:00 PM")
+  
+  successMessage    String   @default("شكراً لك! تم إرسال رسالتك بنجاح. سنتواصل معك قريباً.")
+  successMessageEn  String   @default("Thank you! Your message has been sent successfully. We'll get back to you soon.")
+  errorMessage      String   @default("حدث خطأ ما. يرجى المحاولة مرة أخرى لاحقاً.")
+  errorMessageEn    String   @default("Something went wrong. Please try again later.")
+  requiredField     String   @default("هذا الحقل مطلوب")
+  requiredFieldEn   String   @default("This field is required")
+  invalidEmail      String   @default("يرجى إدخال عنوان بريد إلكتروني صحيح")
+  invalidEmailEn    String   @default("Please enter a valid email address")
+  
+  updatedAt         DateTime @updatedAt
+  createdAt         DateTime @default(now())
+}
+
+model Footer {
+  id                String   @id @default(cuid())
+  
+  footerLogo        String   @default("https://res.cloudinary.com/duo8svqci/image/upload/v1763643456/dattvtozngwdrakiop4j.png")
+  
+  companyName       String   @default("شركة ظلال المدينة للتطوير العقاري والمقاولات العامة وإدارة الأملاك و الاسواق التجارية")
+  companyNameEn     String   @default("City Shadows Real Estate Development, General Contracting and Property Management Company - Commercial Markets Owners")
+  
+  footerCopyright   String   @default("© 2025 اسم الشركة – جميع الحقوق محفوظة")
+  footerCopyrightEn String  @default("© 2025 Company Name – All Rights Reserved")
+  
+  addressLabel      String   @default("العنوان")
+  addressLabelEn    String   @default("Address")
+  addressValue      String   @default("عنوان شركتك")
+  addressValueEn    String   @default("Your Company Address")
+  
+  phoneLabelInfo    String   @default("الهاتف")
+  phoneLabelInfoEn  String   @default("Phone")
+  phoneValue        String   @default("+1 234 567 8900")
+  
+  showSocialMedia   Boolean  @default(true)
+  instagramLink     String   @default("https://www.instagram.com")
+  facebookLink      String   @default("https://www.facebook.com")
+  xLink             String   @default("https://www.x.com")
+  
+  updatedAt         DateTime @updatedAt
+  createdAt         DateTime @default(now())
+}
+
+model User {
+  id            String   @id @default(cuid())
+  username      String   @unique
+  email         String   @unique
+  password      String
+  name          String?
+  role          String   @default("admin")
+  isActive      Boolean  @default(true)
+  lastLogin     DateTime?
+  updatedAt     DateTime @updatedAt
+  createdAt     DateTime @default(now())
+}
+
+model Project {
+  id            String   @id @default(cuid())
+  title         String   @default("")
+  titleEn        String   @default("")
+  description   String   @db.Text
+  descriptionEn String   @db.Text
+  image         String   @default("https://res.cloudinary.com/duo8svqci/image/upload/v1763643456/dattvtozngwdrakiop4j.png")
+  images        String?  @db.Text
+  location      String?  @default("")
+  locationEn     String?  @default("")
+  category      String?  @default("")
+  categoryEn    String?  @default("")
+  projectType   String?  @default("commercial")
+  year          String?  @default("")
+  order         Int      @default(0)
+  isPublished   Boolean  @default(true)
+  updatedAt     DateTime @updatedAt
+  createdAt     DateTime @default(now())
+}
+
+model ContactEmail {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  isActive      Boolean  @default(true)
+  updatedAt     DateTime @updatedAt
+  createdAt     DateTime @default(now())
+}
+
+model ContactMessage {
+  id            String   @id @default(cuid())
+  name          String
+  email         String
+  phone         String?
+  subject       String
+  message       String   @db.Text
+  isRead        Boolean  @default(false)
+  updatedAt     DateTime @updatedAt
+  createdAt     DateTime @default(now())
+}
+
+model OurProjectsContent {
+  id                String   @id @default(cuid())
+  
+  heroLogo          String   @db.Text
+  heroTitle         String   @default("مشاريعنا")
+  heroTitleEn       String   @default("Our Projects")
+  heroSubtitle      String   @default("نفخر بتقديم مشاريع استثنائية حول العالم")
+  heroSubtitleEn    String   @default("We are proud to present exceptional projects around the world")
+  
+  showStats         Boolean  @default(true)
+  stat1Icon        String   @default("Globe")
+  stat1Number      String   @default("48")
+  stat1Label       String   @default("دولة")
+  stat1LabelEn     String   @default("Countries")
+  
+  stat2Icon        String   @default("Building2")
+  stat2Number      String   @default("250+")
+  stat2Label       String   @default("مشروع")
+  stat2LabelEn     String   @default("Projects")
+  
+  stat3Icon        String   @default("Award")
+  stat3Number      String   @default("22")
+  stat3Label       String   @default("جائزة")
+  stat3LabelEn     String   @default("Awards")
+  
+  galleryIcon      String   @default("Layers")
+  galleryTitle     String   @default("معرض المشاريع")
+  galleryTitleEn   String   @default("Projects Gallery")
+  gallerySubtitle  String   @default("استكشف مجموعة من أروع مشاريعنا المعمارية")
+  gallerySubtitleEn String  @default("Explore a collection of our finest architectural projects")
+  
+  emptyMessage     String   @default("لا توجد مشاريع متاحة حالياً")
+  emptyMessageEn   String   @default("No projects available at the moment")
+  
+  updatedAt       DateTime @updatedAt
+  createdAt       DateTime @default(now())
+}
+
+model OurClientsContent {
+  id                String   @id @default(cuid())
+  
+  statsTitle        String   @default("إنجازاتنا بالأرقام")
+  statsTitleEn      String   @default("Our Achievements in Numbers")
+  statsSubtitle     String   @default("سنوات من الخبرة والتميز في التصميم المعماري الفاخر")
+  statsSubtitleEn   String   @default("Years of experience and excellence in luxury architectural design")
+  showStats         Boolean  @default(true)
+  
+  statsStat1Icon    String   @default("Building2")
+  statsStat1Number   String   @default("250+")
+  statsStat1Label   String   @default("مشروع مكتمل")
+  statsStat1LabelEn String   @default("Completed Projects")
+  
+  statsStat2Icon    String   @default("Globe")
+  statsStat2Number   String   @default("48")
+  statsStat2Label   String   @default("دولة حول العالم")
+  statsStat2LabelEn String   @default("Countries Worldwide")
+  
+  statsStat3Icon    String   @default("Award")
+  statsStat3Number   String   @default("22")
+  statsStat3Label   String   @default("جائزة دولية")
+  statsStat3LabelEn String   @default("International Awards")
+  
+  statsStat4Icon    String   @default("Users")
+  statsStat4Number   String   @default("500+")
+  statsStat4Label   String   @default("عميل راضٍ")
+  statsStat4LabelEn String   @default("Satisfied Clients")
+  
+  clientsTitle      String   @default("عملاؤنا")
+  clientsTitleEn    String   @default("Our Clients")
+  clientsSubtitle   String   @default("نفتخر بثقة عملائنا الكرام من حول العالم")
+  clientsSubtitleEn String   @default("We are proud of the trust of our valued clients from around the world")
+  
+  clientLogos       String?  @db.Text
+  
+  updatedAt       DateTime @updatedAt
+  createdAt       DateTime @default(now())
+}

@@ -3,6 +3,29 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 
+interface Company {
+  id: string;
+  name: string;
+  logo: string;
+  description: string | null;
+  website: string | null;
+  order: number;
+  isActive: boolean;
+  comingSoon: boolean;
+}
+
+interface Settings {
+  siteName: string;
+  siteTagline: string;
+  siteSubtagline: string;
+  emailPlaceholder: string;
+  emailButtonText: string;
+  emailSuccessMsg: string;
+  emailPromptMsg: string;
+  portfolioTitle: string;
+  footerText: string;
+}
+
 // Generate floating particles with varied sizes
 const particles = Array.from({ length: 30 }, (_, i) => ({
   left: `${(i * 31 + 7) % 100}%`,
@@ -12,53 +35,62 @@ const particles = Array.from({ length: 30 }, (_, i) => ({
   size: i % 3 === 0 ? 3 : i % 2 === 0 ? 2 : 1,
 }));
 
-// Target date for countdown (30 days from now)
-const getTargetDate = () => {
-  const target = new Date();
-  target.setDate(target.getDate() + 30);
-  return target;
-};
-
 export default function Home() {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 30,
-    hours: 12,
-    minutes: 45,
-    seconds: 30,
-  });
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [settings, setSettings] = useState<Settings>({
+    siteName: "KMG Investment",
+    siteTagline: "Investment Excellence",
+    siteSubtagline: "Building Tomorrow's Leaders",
+    emailPlaceholder: "Enter your email address",
+    emailButtonText: "Notify Me",
+    emailSuccessMsg: "Thank you! We'll notify you when we launch.",
+    emailPromptMsg: "Be the first to experience the extraordinary",
+    portfolioTitle: "Our Portfolio",
+    footerText: "© 2024 · All Rights Reserved",
+  });
 
   useEffect(() => {
-    const targetDate = getTargetDate();
+    // Fetch companies
+    fetch('/api/companies')
+      .then(res => res.json())
+      .then(data => setCompanies(data))
+      .catch(err => console.error('Error fetching companies:', err));
 
-    const updateCountdown = () => {
-      const now = new Date().getTime();
-      const distance = targetDate.getTime() - now;
-
-      setTimeLeft({
-        days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((distance % (1000 * 60)) / 1000),
-      });
-    };
-
-    updateCountdown();
-    const interval = setInterval(updateCountdown, 1000);
-    return () => clearInterval(interval);
+    // Fetch settings
+    fetch('/api/settings')
+      .then(res => res.json())
+      .then(data => setSettings(data))
+      .catch(err => console.error('Error fetching settings:', err));
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
     setIsSubmitting(true);
-    setTimeout(() => {
+    
+    try {
+      const response = await fetch('/api/subscribers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        setEmail("");
+      } else {
+        const error = await response.json();
+        alert(error.error || 'Failed to subscribe');
+      }
+    } catch (error) {
+      console.error('Error subscribing:', error);
+      alert('Failed to subscribe');
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-      setEmail("");
-    }, 1500);
+    }
   };
 
   return (
@@ -132,30 +164,12 @@ export default function Home() {
               />
             </div>
 
-            {/* Coming Soon - Elegant serif typography */}
-            <div className="mb-4 overflow-hidden">
-              <h1 className="font-[family-name:var(--font-cormorant)] text-4xl md:text-6xl lg:text-7xl font-light tracking-[0.3em] animate-[fadeInUp_1s_ease-out_0.2s_both]">
-                <span 
-                  className="inline-block bg-gradient-to-r from-[#8b7235] via-[#e8d5a3] via-50% to-[#8b7235] bg-[length:200%_100%] bg-clip-text text-transparent animate-[shimmer_8s_linear_infinite]"
-                >
-                  COMING SOON
-                </span>
-              </h1>
-            </div>
-
-            {/* Elegant divider */}
-            <div className="relative flex items-center justify-center gap-4 my-8 animate-[fadeIn_1s_ease-out_0.4s_both]">
-              <div className="h-[1px] w-16 bg-gradient-to-r from-transparent to-[#c4a052]/50 animate-[line-extend_1s_ease-out_0.6s_both] origin-right" />
-              <div className="w-2 h-2 rotate-45 border border-[#c4a052]/60" />
-              <div className="h-[1px] w-16 bg-gradient-to-l from-transparent to-[#c4a052]/50 animate-[line-extend_1s_ease-out_0.6s_both] origin-left" />
-            </div>
-
             {/* Tagline */}
-            <p className="font-[family-name:var(--font-cormorant)] text-xl md:text-2xl lg:text-3xl text-[#f8f6f0]/90 mb-3 tracking-wide font-light italic animate-[fadeInUp_1s_ease-out_0.5s_both]">
-              An elevated experience, crafted with precision
+            <p className="font-[family-name:var(--font-cormorant)] text-3xl md:text-5xl lg:text-6xl text-[#f8f6f0]/90 mb-4 tracking-wide font-light animate-[fadeInUp_1s_ease-out_0.2s_both]">
+              {settings.siteTagline}
             </p>
-            <p className="text-sm md:text-base text-[#c4a052]/70 mb-14 tracking-[0.25em] uppercase font-light animate-[fadeInUp_1s_ease-out_0.6s_both]">
-              Elegance in Motion · Excellence in Detail
+            <p className="text-base md:text-lg text-[#c4a052]/70 mb-14 tracking-[0.2em] font-light animate-[fadeInUp_1s_ease-out_0.4s_both]">
+              {settings.siteSubtagline}
             </p>
 
             {/* Email Signup Form */}
@@ -166,7 +180,7 @@ export default function Home() {
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email address"
+                    placeholder={settings.emailPlaceholder}
                     disabled={isSubmitted}
                     className="w-full px-6 py-4 bg-white/[0.03] border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:border-[#c4a052]/50 focus:bg-white/[0.05] focus:shadow-[0_0_30px_rgba(196,160,82,0.15)] transition-all duration-500 disabled:opacity-50"
                   />
@@ -181,44 +195,86 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-r from-[#e8d5a3] to-[#c4a052] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[0_0_40px_rgba(196,160,82,0.5)]" />
                   <span className="relative z-10 text-[#030303] font-semibold">
-                    {isSubmitting ? "Sending..." : isSubmitted ? "Subscribed ✓" : "Notify Me"}
+                    {isSubmitting ? "Sending..." : isSubmitted ? "Subscribed ✓" : settings.emailButtonText}
                   </span>
                 </button>
               </div>
               <p className="text-xs text-white/30 tracking-wide">
                 {isSubmitted 
-                  ? "Thank you! We'll notify you when we launch." 
-                  : "Be the first to experience the extraordinary"
+                  ? settings.emailSuccessMsg
+                  : settings.emailPromptMsg
                 }
               </p>
             </form>
 
-            {/* Countdown Timer */}
-            <div className="mt-14 animate-[fadeInUp_1s_ease-out_0.9s_both]">
-              <p className="text-xs text-white/40 uppercase tracking-[0.3em] mb-6">Launching In</p>
-              <div className="flex justify-center gap-3 md:gap-5">
-                {[
-                  { value: timeLeft.days, label: "Days" },
-                  { value: timeLeft.hours, label: "Hours" },
-                  { value: timeLeft.minutes, label: "Minutes" },
-                  { value: timeLeft.seconds, label: "Seconds" },
-                ].map((item, idx) => (
+          </div>
+        </div>
+
+        {/* Portfolio Companies Section */}
+        <div className="mt-20 animate-[fadeInUp_1s_ease-out_1.1s_both]">
+          <p className="text-xs text-white/40 uppercase tracking-[0.3em] mb-8">{settings.portfolioTitle}</p>
+          
+          <div className="relative mx-auto max-w-4xl">
+            {/* Subtle border glow */}
+            <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-transparent via-[#c4a052]/20 to-transparent blur-sm" />
+            
+            <div className="relative rounded-2xl border border-white/[0.06] bg-gradient-to-b from-white/[0.03] to-transparent backdrop-blur-xl p-8 md:p-10">
+              {/* Inner glow */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-[#c4a052]/[0.02] to-transparent pointer-events-none" />
+              
+              {/* Logos Grid */}
+              <div className="relative grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+                {companies.length > 0 ? companies.map((company, idx) => (
                   <div
-                    key={idx}
-                    className="group relative"
-                    style={{ animationDelay: `${1 + idx * 0.1}s` }}
+                    key={company.id}
+                    className="group relative aspect-square flex items-center justify-center"
+                    style={{ animationDelay: `${1.2 + idx * 0.05}s` }}
                   >
-                    <div className="absolute -inset-[1px] rounded-xl bg-gradient-to-b from-[#c4a052]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="relative min-w-[70px] md:min-w-[90px] px-4 py-5 rounded-xl border border-white/[0.06] bg-white/[0.02] backdrop-blur-sm">
-                      <div className="font-[family-name:var(--font-cormorant)] text-3xl md:text-4xl lg:text-5xl font-light text-[#e8d5a3] mb-1 tabular-nums">
-                        {String(item.value).padStart(2, "0")}
+                    {/* Hover effect border */}
+                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#c4a052]/0 to-[#c4a052]/0 group-hover:from-[#c4a052]/10 group-hover:to-transparent transition-all duration-500" />
+                    
+                    {/* Logo container */}
+                    <div className="relative w-full h-full rounded-xl border border-white/[0.04] bg-white/[0.02] backdrop-blur-sm p-6 flex items-center justify-center group-hover:border-[#c4a052]/20 group-hover:bg-white/[0.04] transition-all duration-500 overflow-hidden">
+                      {/* Company logo */}
+                      <div className="relative w-full h-full opacity-40 group-hover:opacity-60 transition-opacity duration-500">
+                        <Image
+                          src={company.logo}
+                          alt={company.name}
+                          fill
+                          className="object-contain grayscale group-hover:grayscale-0 transition-all duration-500"
+                          onError={(e) => {
+                            // Fallback if image doesn't exist
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                            const parent = target.parentElement;
+                            if (parent && !parent.querySelector('.fallback-text')) {
+                              const fallback = document.createElement('div');
+                              fallback.className = 'fallback-text text-[#c4a052]/30 text-xs font-light tracking-widest text-center';
+                              fallback.textContent = company.name;
+                              parent.appendChild(fallback);
+                            }
+                          }}
+                        />
                       </div>
-                      <div className="text-[10px] md:text-xs text-white/40 uppercase tracking-[0.2em]">
-                        {item.label}
-                      </div>
+                      
+                      {/* Coming Soon Overlay */}
+                      {company.comingSoon && (
+                        <div className="absolute inset-0 bg-[#030303]/90 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
+                          <div className="text-center">
+                            <p className="font-[family-name:var(--font-cormorant)] text-lg md:text-xl font-light tracking-[0.3em] bg-gradient-to-r from-[#8b7235] via-[#e8d5a3] to-[#8b7235] bg-clip-text text-transparent">
+                              COMING SOON
+                            </p>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
-                ))}
+                )) : (
+                  // Placeholder when no companies
+                  <div className="col-span-full text-center py-12">
+                    <p className="text-white/30 text-sm tracking-wide">No companies yet</p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -226,8 +282,8 @@ export default function Home() {
       </div>
 
       {/* Footer */}
-      <footer className="absolute bottom-6 text-center text-xs text-white/20 tracking-[0.15em] animate-[fadeIn_1s_ease-out_1.2s_both]">
-        <p>© 2024 · All Rights Reserved</p>
+      <footer className="relative mt-16 mb-6 text-center text-xs text-white/20 tracking-[0.15em] animate-[fadeIn_1s_ease-out_1.2s_both]">
+        <p>{settings.footerText}</p>
       </footer>
 
       {/* Floating particles */}
