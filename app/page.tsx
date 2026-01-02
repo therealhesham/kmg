@@ -223,7 +223,7 @@ export default function Home() {
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-[#c4a052]/[0.02] to-transparent pointer-events-none" />
               
               {/* Logos Grid */}
-              <div className="relative grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
+              <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
                 {companies.length > 0 ? companies.map((company, idx) => (
                   <div
                     key={company.id}
@@ -234,14 +234,14 @@ export default function Home() {
                     <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#c4a052]/0 to-[#c4a052]/0 group-hover:from-[#c4a052]/10 group-hover:to-transparent transition-all duration-500" />
                     
                     {/* Logo container */}
-                    <div className="relative w-full h-full rounded-xl border border-white/[0.04] bg-white/[0.02] backdrop-blur-sm p-6 flex items-center justify-center group-hover:border-[#c4a052]/20 group-hover:bg-white/[0.04] transition-all duration-500 overflow-hidden">
+                    <div className="relative w-full h-full rounded-xl border border-white/[0.04] bg-white/[0.02] backdrop-blur-sm p-8 flex items-center justify-center group-hover:border-[#c4a052]/20 group-hover:bg-white/[0.04] transition-all duration-500 overflow-hidden">
                       {/* Company logo */}
-                      <div className="relative w-full h-full opacity-40 group-hover:opacity-60 transition-opacity duration-500">
+                      <div className="relative w-full h-full opacity-80 group-hover:opacity-100 transition-opacity duration-500">
                         <Image
                           src={company.logo}
                           alt={company.name}
                           fill
-                          className="object-contain grayscale group-hover:grayscale-0 transition-all duration-500"
+                          className="object-contain transition-all duration-500"
                           onError={(e) => {
                             // Fallback if image doesn't exist
                             const target = e.target as HTMLImageElement;
