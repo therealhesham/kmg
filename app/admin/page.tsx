@@ -617,8 +617,10 @@ export default function AdminPage() {
                             
                             // Yellows & Golds (30 colors)
                             "#fefce8", "#fef9c3", "#fef08a", "#fde047", "#facc15", "#eab308", "#ca8a04", "#a16207", "#854d0e", "#713f12",
-                            "#c4a052", "#e8d5a3", "#d4af37", "#ffd700", "#ffed4e", "#fbbf25", "#f59e0c", "#8b7235", "#6b5a2d", "#4a3f1f",
-                            "#ffff00", "#ffff33", "#ffff66", "#ffff99", "#ffffcc", "#ffcc00", "#ffd633", "#ffe066", "#ffeb99", "#fff5cc",
+                            // Gold Colors - درجات ذهبية مميزة
+                            "#ffd700", "#ffdf00", "#ffe44d", "#fff176", "#ffc107", "#ffb300", "#ffa000", "#ff8f00", "#ff6f00", "#ff5722",
+                            "#f9a825", "#fbc02d", "#fdd835", "#fee651", "#fff59d", "#c4a052", "#d4af37", "#b8860b", "#daa520", "#cd9c32",
+                            "#e8d5a3", "#f5deb3", "#ffdab9", "#ffe4b5", "#fff8dc", "#8b7235", "#6b5a2d", "#4a3f1f", "#3d3522", "#2a2418",
                             
                             // Greens (30 colors)
                             "#f0fdf4", "#dcfce7", "#bbf7d0", "#86efac", "#4ade80", "#22c55e", "#16a34a", "#15803d", "#166534", "#14532d",
@@ -882,8 +884,10 @@ export default function AdminPage() {
                               
                               // Yellows & Golds (30 colors)
                               "#fefce8", "#fef9c3", "#fef08a", "#fde047", "#facc15", "#eab308", "#ca8a04", "#a16207", "#854d0e", "#713f12",
-                              "#c4a052", "#e8d5a3", "#d4af37", "#ffd700", "#ffed4e", "#fbbf25", "#f59e0c", "#8b7235", "#6b5a2d", "#4a3f1f",
-                              "#ffff00", "#ffff33", "#ffff66", "#ffff99", "#ffffcc", "#ffcc00", "#ffd633", "#ffe066", "#ffeb99", "#fff5cc",
+                              // Gold Colors - درجات ذهبية مميزة
+                              "#ffd700", "#ffdf00", "#ffe44d", "#fff176", "#ffc107", "#ffb300", "#ffa000", "#ff8f00", "#ff6f00", "#ff5722",
+                              "#f9a825", "#fbc02d", "#fdd835", "#fee651", "#fff59d", "#c4a052", "#d4af37", "#b8860b", "#daa520", "#cd9c32",
+                              "#e8d5a3", "#f5deb3", "#ffdab9", "#ffe4b5", "#fff8dc", "#8b7235", "#6b5a2d", "#4a3f1f", "#3d3522", "#2a2418",
                               
                               // Greens (30 colors)
                               "#f0fdf4", "#dcfce7", "#bbf7d0", "#86efac", "#4ade80", "#22c55e", "#16a34a", "#15803d", "#166534", "#14532d",
