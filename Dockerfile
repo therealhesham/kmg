@@ -66,9 +66,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
 USER nextjs
 
 # فتح المنفذ
-EXPOSE 3020
+EXPOSE 3022
 
-ENV PORT 3020
+ENV PORT 3022
 ENV HOSTNAME "0.0.0.0"
 
 # تشغيل التطبيق
