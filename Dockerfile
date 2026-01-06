@@ -1,64 +1,71 @@
-# Stage 1: Dependencies
-FROM node:20-alpine AS deps
-RUN apk update && apk add --no-cache openssl
-WORKDIR /app
+# -----------------------
+# Base image with DNS fix and common dependencies
+# -----------------------
+    FROM node:20-alpine AS base
 
-# Copy package files
-COPY package.json package-lock.json ./
-
-# Install dependencies
-RUN npm ci
-
-# Stage 2: Builder
-FROM node:20-alpine AS builder
-RUN apk update && apk add --no-cache openssl
-WORKDIR /app
-
-# Copy dependencies from deps stage
-COPY --from=deps /app/node_modules ./node_modules
-COPY . .
-
-# Generate Prisma Client
-RUN npx prisma generate
-
-# Build Next.js application
-ENV NEXT_TELEMETRY_DISABLED=1
-RUN npm run build
-
-# Stage 3: Runner
-FROM node:20-alpine AS runner
-RUN apk update && apk add --no-cache openssl
-WORKDIR /app
-
-ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
-
-# Create a non-root user
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-# Copy necessary files from builder
-COPY --from=builder /app/public ./public
-COPY --from=builder /app/package.json ./package.json
-
-# Copy built application
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-# Copy Prisma files for migrations
-COPY --from=builder /app/prisma ./prisma
-COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
-
-# Create companies directory for uploads
-RUN mkdir -p public/companies && chown -R nextjs:nodejs public/companies
-
-USER nextjs
-
-EXPOSE 3000
-
-ENV PORT=3000
-ENV HOSTNAME="0.0.0.0"
-
-# Start the application
-CMD ["node", "server.js"]
+    # Fix transient DNS errors for Alpine
+    RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf \
+        && apk add --no-cache libc6-compat openssl
+    
+    WORKDIR /app
+    
+    # -----------------------
+    # Stage 1: Dependencies
+    # -----------------------
+    FROM base AS deps
+    
+    # Copy package manifests
+    COPY package.json package-lock.json ./
+    
+    # Install dependencies
+    RUN npm ci
+    
+    # -----------------------
+    # Stage 2: Builder
+    # -----------------------
+    FROM base AS builder
+    
+    # Copy dependencies from deps stage
+    COPY --from=deps /app/node_modules ./node_modules
+    COPY . .
+    
+    # Generate Prisma client
+    RUN npx prisma generate
+    
+    # Disable Next.js telemetry and build
+    ENV NEXT_TELEMETRY_DISABLED=1
+    RUN npm run build
+    
+    # -----------------------
+    # Stage 3: Runner
+    # -----------------------
+    FROM base AS runner
+    
+    # Create non-root user
+    RUN addgroup -S nodejs && adduser -S nextjs -G nodejs
+    
+    USER nextjs
+    WORKDIR /app
+    
+    # Copy only the necessary files from builder
+    COPY --from=builder --chown=nextjs:nodejs /app/package.json ./
+    COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+    COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+    COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+    COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.prisma ./node_modules/.prisma
+    COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
+    
+    # Create upload directory
+    RUN mkdir -p public/companies && chown -R nextjs:nodejs public/companies
+    
+    # Expose port and set env variables
+    ENV NODE_ENV=production
+    ENV NEXT_TELEMETRY_DISABLED=1
+    ENV PORT=3022
+    ENV HOSTNAME="0.0.0.0"
+    
+    EXPOSE 3022
+    
+    # Start application
+    CMD ["npx", "next", "start"]
+    
