@@ -1,11 +1,10 @@
 # -----------------------
-# Base image with DNS fix and common dependencies
+# Base image with common dependencies
 # -----------------------
     FROM node:20-alpine AS base
 
-    # Fix transient DNS errors for Alpine
-    RUN echo "nameserver 8.8.8.8" > /etc/resolv.conf \
-        && apk add --no-cache libc6-compat openssl
+    # Install essential dependencies
+    RUN apk add --no-cache libc6-compat openssl
     
     WORKDIR /app
     
@@ -17,7 +16,7 @@
     # Copy package manifests
     COPY package.json package-lock.json ./
     
-    # Install dependencies
+    # Install all dependencies
     RUN npm ci
     
     # -----------------------
@@ -47,7 +46,7 @@
     USER nextjs
     WORKDIR /app
     
-    # Copy only the necessary files from builder
+    # Copy only necessary files from builder
     COPY --from=builder --chown=nextjs:nodejs /app/package.json ./
     COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
     COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
@@ -58,7 +57,7 @@
     # Create upload directory
     RUN mkdir -p public/companies && chown -R nextjs:nodejs public/companies
     
-    # Expose port and set env variables
+    # Environment variables
     ENV NODE_ENV=production
     ENV NEXT_TELEMETRY_DISABLED=1
     ENV PORT=3022
