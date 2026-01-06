@@ -1,72 +1,64 @@
-# استخدام صورة Node.js الرسمية كصورة أساسية
-FROM node:20-alpine AS base
-
-# تثبيت التبعيات فقط عند الحاجة
-FROM base AS deps
+# Stage 1: Dependencies
+FROM node:20-alpine AS deps
+RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
-# نسخ ملفات التبعيات
-COPY package.json package-lock.json* ./
-# تثبيت جميع التبعيات (للبناء)
+# Copy package files
+COPY package.json package-lock.json ./
+
+# Install dependencies
 RUN npm ci
 
-# تثبيت تبعيات الإنتاج فقط
-FROM base AS deps-prod
+# Stage 2: Builder
+FROM node:20-alpine AS builder
+RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
-COPY package.json package-lock.json* ./
-RUN npm ci --only=production
 
-# بناء التطبيق
-FROM base AS builder
-WORKDIR /app
+# Copy dependencies from deps stage
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# توليد Prisma Client
-RUN ./node_modules/.bin/prisma generate
+# Generate Prisma Client
+RUN npx prisma generate
 
-# تعطيل telemetry في Next.js
+# Build Next.js application
 ENV NEXT_TELEMETRY_DISABLED=1
-
-# بناء التطبيق للإنتاج
 RUN npm run build
 
-# صورة الإنتاج - تحتوي فقط على الملفات المطلوبة للتشغيل
-FROM base AS runner
+# Stage 3: Runner
+FROM node:20-alpine AS runner
+RUN apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Prisma يحتاج OpenSSL - متوفر بشكل افتراضي في node:20-alpine
-
-# إنشاء مستخدم غير root للأمان
+# Create a non-root user
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# نسخ التبعيات للإنتاج فقط
-COPY --from=deps-prod --chown=nextjs:nodejs /app/node_modules ./node_modules
+# Copy necessary files from builder
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
 
-# نسخ Prisma Client المولد من مرحلة البناء
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
+# Copy built application
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# نسخ الملفات المطلوبة
-COPY --from=builder --chown=nextjs:nodejs /app/public ./public
-COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
-COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
+# Copy Prisma files for migrations
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/node_modules/.prisma ./node_modules/.prisma
+COPY --from=builder /app/node_modules/@prisma ./node_modules/@prisma
 
-# نسخ Prisma schema
-COPY --from=builder --chown=nextjs:nodejs /app/prisma ./prisma
+# Create companies directory for uploads
+RUN mkdir -p public/companies && chown -R nextjs:nodejs public/companies
 
 USER nextjs
 
-# فتح المنفذ
 EXPOSE 3022
 
 ENV PORT=3022
 ENV HOSTNAME="0.0.0.0"
 
-# تشغيل التطبيق
+# Start the application
 CMD ["npx", "next", "start"]
-
