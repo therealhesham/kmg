@@ -1,6 +1,6 @@
 # Stage 1: Dependencies
 FROM node:20-alpine AS deps
-RUN apk add --no-cache libc6-compat openssl
+RUN apk update && apk add --no-cache openssl
 WORKDIR /app
 
 # Copy package files
@@ -11,7 +11,7 @@ RUN npm ci
 
 # Stage 2: Builder
 FROM node:20-alpine AS builder
-RUN apk add --no-cache libc6-compat openssl
+RUN apk update && apk add --no-cache openssl
 WORKDIR /app
 
 # Copy dependencies from deps stage
@@ -27,7 +27,7 @@ RUN npm run build
 
 # Stage 3: Runner
 FROM node:20-alpine AS runner
-RUN apk add --no-cache libc6-compat openssl
+RUN apk update && apk add --no-cache openssl
 WORKDIR /app
 
 ENV NODE_ENV=production
@@ -55,10 +55,10 @@ RUN mkdir -p public/companies && chown -R nextjs:nodejs public/companies
 
 USER nextjs
 
-EXPOSE 3022
+EXPOSE 3000
 
-ENV PORT=3022
+ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
 
 # Start the application
-CMD ["npx", "next", "start"]
+CMD ["node", "server.js"]
