@@ -4,7 +4,7 @@ FROM node:20-alpine AS base
 # تثبيت التبعيات فقط عند الحاجة
 FROM base AS deps
 # تثبيت libc6-compat و openssl لبعض الحزم التي تحتاجها
-RUN apk add --no-cache libc6-compat openssl
+RUN apk update && apk add --no-cache libc6-compat openssl
 WORKDIR /app
 
 # نسخ ملفات التبعيات
@@ -14,7 +14,7 @@ RUN npm ci
 
 # تثبيت تبعيات الإنتاج فقط
 FROM base AS deps-prod
-RUN apk add --no-cache libc6-compat openssl
+RUN apk update && apk add --no-cache libc6-compat openssl
 WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci --only=production
@@ -29,7 +29,7 @@ COPY . .
 RUN npx prisma generate
 
 # تعطيل telemetry في Next.js
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # بناء التطبيق للإنتاج
 RUN npm run build
@@ -38,11 +38,11 @@ RUN npm run build
 FROM base AS runner
 WORKDIR /app
 
-ENV NODE_ENV production
-ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
 
 # تثبيت openssl لـ Prisma
-RUN apk add --no-cache openssl
+RUN apk update && apk add --no-cache openssl
 
 # إنشاء مستخدم غير root للأمان
 RUN addgroup --system --gid 1001 nodejs
