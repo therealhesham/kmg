@@ -3,8 +3,8 @@ FROM node:20-alpine AS base
 
 # تثبيت التبعيات فقط عند الحاجة
 FROM base AS deps
-# تثبيت libc6-compat و openssl لبعض الحزم التي تحتاجها
-RUN apk update && apk add --no-cache libc6-compat openssl
+# تثبيت openssl لبعض الحزم التي تحتاجها (مثل Prisma)
+RUN apk add --no-cache openssl
 WORKDIR /app
 
 # نسخ ملفات التبعيات
@@ -14,7 +14,7 @@ RUN npm ci
 
 # تثبيت تبعيات الإنتاج فقط
 FROM base AS deps-prod
-RUN apk update && apk add --no-cache libc6-compat openssl
+RUN apk add --no-cache openssl
 WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci --only=production
@@ -42,7 +42,7 @@ ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
 # تثبيت openssl لـ Prisma
-RUN apk update && apk add --no-cache openssl
+RUN apk add --no-cache openssl
 
 # إنشاء مستخدم غير root للأمان
 RUN addgroup --system --gid 1001 nodejs
@@ -68,8 +68,8 @@ USER nextjs
 # فتح المنفذ
 EXPOSE 3022
 
-ENV PORT 3022
-ENV HOSTNAME "0.0.0.0"
+ENV PORT=3022
+ENV HOSTNAME="0.0.0.0"
 
 # تشغيل التطبيق
 CMD ["npx", "next", "start"]
