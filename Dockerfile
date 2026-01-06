@@ -54,8 +54,10 @@
     COPY --from=builder --chown=nextjs:nodejs /app/node_modules/.prisma ./node_modules/.prisma
     COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@prisma ./node_modules/@prisma
     
-    # Create upload directory
+    # Create upload directory (as root before switching to nextjs user)
+    USER root
     RUN mkdir -p public/companies && chown -R nextjs:nodejs public/companies
+    USER nextjs
     
     # Environment variables
     ENV NODE_ENV=production
