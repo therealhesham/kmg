@@ -3,8 +3,6 @@ FROM node:20-alpine AS base
 
 # تثبيت التبعيات فقط عند الحاجة
 FROM base AS deps
-# تثبيت openssl لبعض الحزم التي تحتاجها (مثل Prisma)
-RUN apk add --no-cache openssl
 WORKDIR /app
 
 # نسخ ملفات التبعيات
@@ -14,7 +12,6 @@ RUN npm ci
 
 # تثبيت تبعيات الإنتاج فقط
 FROM base AS deps-prod
-RUN apk add --no-cache openssl
 WORKDIR /app
 COPY package.json package-lock.json* ./
 RUN npm ci --only=production
@@ -41,8 +38,7 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# تثبيت openssl لـ Prisma
-RUN apk add --no-cache openssl
+# Prisma يحتاج OpenSSL - متوفر بشكل افتراضي في node:20-alpine
 
 # إنشاء مستخدم غير root للأمان
 RUN addgroup --system --gid 1001 nodejs
