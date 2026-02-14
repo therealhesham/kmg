@@ -255,7 +255,7 @@ export default function Home() {
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-[#c4a052]/[0.02] to-transparent pointer-events-none" />
               
               {/* Logos Grid */}
-              <div className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+              <div className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
                 {companies.length > 0 ? companies.map((company, idx) => (
                   <div
                     key={company.id}
