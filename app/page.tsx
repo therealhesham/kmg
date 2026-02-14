@@ -246,20 +246,20 @@ export default function Home() {
         <div className="mb-20 animate-[fadeInUp_1s_ease-out_1.1s_both]">
           <p className="text-xs text-white/40 uppercase tracking-[0.3em] mb-8">{settings.portfolioTitle}</p>
           
-          <div className="relative mx-auto max-w-4xl">
+          <div className="relative mx-auto max-w-5xl">
             {/* Subtle border glow */}
             <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-r from-transparent via-[#c4a052]/20 to-transparent blur-sm" />
             
-            <div className="relative rounded-2xl border border-white/[0.06] bg-gradient-to-b from-white/[0.03] to-transparent backdrop-blur-xl p-8 md:p-10">
+            <div className="relative rounded-2xl border border-white/[0.06] bg-gradient-to-b from-white/[0.03] to-transparent backdrop-blur-xl p-8 md:p-12">
               {/* Inner glow */}
               <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-[#c4a052]/[0.02] to-transparent pointer-events-none" />
               
               {/* Logos Grid */}
-              <div className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10">
+              <div className="relative grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                 {companies.length > 0 ? companies.map((company, idx) => (
                   <div
                     key={company.id}
-                    className="relative aspect-square flex items-center justify-center"
+                    className="relative aspect-[4/5] md:aspect-[5/4] min-h-[280px] md:min-h-[320px] flex items-center justify-center rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
                     style={{ 
                       animationDelay: `${1.2 + idx * 0.05}s`,
                       perspective: '1000px'
@@ -272,7 +272,7 @@ export default function Home() {
                     })}
                   >
                     {/* Hover effect border */}
-                    <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#c4a052]/0 to-[#c4a052]/0 transition-all duration-700" style={{
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#c4a052]/0 to-[#c4a052]/0 transition-all duration-700" style={{
                       background: flippedCards.has(company.id) ? 'linear-gradient(to bottom right, rgba(196, 160, 82, 0.1), transparent)' : undefined
                     }} />
                     
@@ -286,7 +286,7 @@ export default function Home() {
                     >
                       {/* Front side - Logo */}
                       <div 
-                        className="absolute inset-0 rounded-xl border border-white/[0.04] backdrop-blur-sm p-8 flex items-center justify-center transition-all duration-700 overflow-hidden"
+                        className="absolute inset-0 rounded-2xl border border-white/[0.06] backdrop-blur-sm p-10 md:p-12 flex items-center justify-center transition-all duration-700 overflow-hidden"
                         style={{
                           backfaceVisibility: 'hidden',
                           transform: 'rotateY(0deg)',
@@ -320,7 +320,7 @@ export default function Home() {
                       {/* Back side - Description */}
                       {(company.description || company.comingSoon) && (
                         <div 
-                          className="absolute inset-0 rounded-xl bg-gradient-to-br from-[#030303]/98 via-[#1a1410]/95 to-[#030303]/98 backdrop-blur-md border border-[#c4a052]/20 flex items-center justify-center p-6 transition-opacity duration-700"
+                          className="absolute inset-0 rounded-2xl bg-gradient-to-br from-[#030303]/98 via-[#1a1410]/95 to-[#030303]/98 backdrop-blur-md border border-[#c4a052]/20 flex items-center justify-center p-8 md:p-10 transition-opacity duration-700"
                           style={{
                             backfaceVisibility: 'hidden',
                             transform: 'rotateY(180deg)'
