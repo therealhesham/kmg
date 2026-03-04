@@ -259,10 +259,16 @@ export default function Home() {
                 {companies.length > 0 ? companies.map((company, idx) => (
                   <div
                     key={company.id}
-                    className="relative aspect-[4/5] md:aspect-[5/4] min-h-[280px] md:min-h-[320px] flex items-center justify-center rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4)]"
+                    className={`relative aspect-[4/5] md:aspect-[5/4] min-h-[280px] md:min-h-[320px] flex items-center justify-center rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.4)] ${company.website ? 'cursor-pointer' : ''}`}
                     style={{ 
                       animationDelay: `${1.2 + idx * 0.05}s`,
                       perspective: '1000px'
+                    }}
+                    onClick={() => {
+                      if (company.website) {
+                        const url = company.website.startsWith('http') ? company.website : `https://${company.website}`;
+                        window.open(url, '_blank', 'noopener,noreferrer');
+                      }
                     }}
                     onMouseEnter={() => setFlippedCards(prev => new Set(prev).add(company.id))}
                     onMouseLeave={() => setFlippedCards(prev => {
@@ -336,6 +342,20 @@ export default function Home() {
                               <p className="font-[family-name:var(--font-cormorant)] text-base md:text-lg font-light tracking-[0.3em] bg-gradient-to-r from-[#8b7235] via-[#e8d5a3] to-[#8b7235] bg-clip-text text-transparent">
                                 COMING SOON
                               </p>
+                            )}
+                            {company.website && (
+                              <a
+                                href={company.website.startsWith('http') ? company.website : `https://${company.website}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={(e) => e.stopPropagation()}
+                                className="inline-flex items-center gap-2 mt-2 text-[#c4a052] hover:text-[#e8d5a3] transition-colors text-sm tracking-wide"
+                              >
+                                Visit Website
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                </svg>
+                              </a>
                             )}
                           </div>
                         </div>
