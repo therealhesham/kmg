@@ -23,7 +23,7 @@ const greatVibes = Great_Vibes({
 });
 
 export const metadata: Metadata = {
-  title: "KMQ Group Elite Dark Portfolio",
+  title: "KMQ Group ",
   description: "Investment Excellence - Building Tomorrow's Leaders",
 };
 
