@@ -22,6 +22,10 @@ interface Settings {
   siteSubtagline?: string;
   aboutTitle?: string;
   aboutDescription?: string;
+  stat1Title?: string;
+  stat1Subtitle?: string;
+  stat2Title?: string;
+  stat2Subtitle?: string;
   emailPlaceholder?: string;
   emailButtonText?: string;
   emailSuccessMsg?: string;
@@ -139,6 +143,10 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
   const siteSubtagline = settings?.siteSubtagline || "Cultivating Legacy Through Strategic Excellence";
   const aboutTitle = settings?.aboutTitle || "About KMG Group";
   const aboutDescription = settings?.aboutDescription || "KMG Group stands at the vanguard of sovereign and institutional investment. We don't merely allocate capital; we architect entire ecosystems of value, fusing visionary foresight with exacting operational mastery.";
+  const stat1Title = settings?.stat1Title || "Bespoke";
+  const stat1Subtitle = settings?.stat1Subtitle || "Asset Curation";
+  const stat2Title = settings?.stat2Title || "Global";
+  const stat2Subtitle = settings?.stat2Subtitle || "Market Presence";
   const portfolioTitle = settings?.portfolioTitle || "Our Portfolio";
   const contactTitle = settings?.contactTitle || "Begin a Dialogue";
   const emailPromptMsg = settings?.emailPromptMsg || "Exclusive access is reserved for visionary partners and sovereign entities seeking unparalleled value creation.";
@@ -233,12 +241,12 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
               
               <div className="grid grid-cols-2 gap-6 pt-8 border-t border-white/5">
                 <div className="stat-card">
-                  <div className="text-3xl font-display text-primary mb-2">Bespoke</div>
-                  <div className="text-xs uppercase tracking-widest text-gray-500">Asset Curation</div>
+                  <div className="text-3xl font-display text-primary mb-2">{stat1Title}</div>
+                  <div className="text-xs uppercase tracking-widest text-gray-500">{stat1Subtitle}</div>
                 </div>
                 <div className="stat-card">
-                  <div className="text-3xl font-display text-primary mb-2">Global</div>
-                  <div className="text-xs uppercase tracking-widest text-gray-500">Market Presence</div>
+                  <div className="text-3xl font-display text-primary mb-2">{stat2Title}</div>
+                  <div className="text-xs uppercase tracking-widest text-gray-500">{stat2Subtitle}</div>
                 </div>
               </div>
             </div>
@@ -322,15 +330,25 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
                         {company.description}
                       </p>
                       
-                      <Link
-                        className="card-reveal inline-flex items-center gap-3 text-primary text-xs tracking-widest uppercase hover:text-white transition-colors"
-                        href={company.website || "#"}
-                      >
-                        Explore Venture
-                        <span className="material-symbols-outlined text-[14px]">
-                          arrow_right_alt
-                        </span>
-                      </Link>
+                      {company.website && company.website.trim() !== "" && company.website.trim() !== "#" && (
+                        <Link
+                          className="card-reveal inline-flex items-center gap-3 text-primary text-xs tracking-widest uppercase hover:text-white transition-colors"
+                          href={
+                            company.website.startsWith("http://") ||
+                            company.website.startsWith("https://") ||
+                            company.website.startsWith("/")
+                              ? company.website
+                              : `https://${company.website}`
+                          }
+                          target={company.website.startsWith("/") ? "_self" : "_blank"}
+                          rel="noopener noreferrer"
+                        >
+                          Explore Venture
+                          <span className="material-symbols-outlined text-[14px]">
+                            arrow_right_alt
+                          </span>
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </div>

@@ -23,6 +23,10 @@ interface Settings {
   siteSubtagline: string;
   aboutTitle: string;
   aboutDescription: string;
+  stat1Title?: string;
+  stat1Subtitle?: string;
+  stat2Title?: string;
+  stat2Subtitle?: string;
   emailPlaceholder: string;
   emailButtonText: string;
   emailSuccessMsg: string;
@@ -1181,6 +1185,62 @@ export default function AdminPage() {
                           rows={4}
                           className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
                         />
+                      </div>
+
+                      {/* Stat Cards */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-white/5">
+                        <div>
+                          <label className="block text-sm text-white/70 mb-2">
+                            Card 1 Title (Bespoke)
+                          </label>
+                          <input
+                            type="text"
+                            value={settings.stat1Title || ""}
+                            onChange={(e) =>
+                              setSettings({ ...settings, stat1Title: e.target.value })
+                            }
+                            className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm text-white/70 mb-2">
+                            Card 1 Subtitle (ASSET CURATION)
+                          </label>
+                          <input
+                            type="text"
+                            value={settings.stat1Subtitle || ""}
+                            onChange={(e) =>
+                              setSettings({ ...settings, stat1Subtitle: e.target.value })
+                            }
+                            className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm text-white/70 mb-2">
+                            Card 2 Title (Global)
+                          </label>
+                          <input
+                            type="text"
+                            value={settings.stat2Title || ""}
+                            onChange={(e) =>
+                              setSettings({ ...settings, stat2Title: e.target.value })
+                            }
+                            className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm text-white/70 mb-2">
+                            Card 2 Subtitle (MARKET PRESENCE)
+                          </label>
+                          <input
+                            type="text"
+                            value={settings.stat2Subtitle || ""}
+                            onChange={(e) =>
+                              setSettings({ ...settings, stat2Subtitle: e.target.value })
+                            }
+                            className="w-full px-4 py-2 bg-white/[0.05] border border-white/10 rounded-lg text-white focus:outline-none focus:border-[#c4a052]/50"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
