@@ -15,8 +15,28 @@ interface Company {
   updatedAt: Date;
 }
 
+interface Settings {
+  id?: string;
+  siteName?: string;
+  siteTagline?: string;
+  siteSubtagline?: string;
+  aboutTitle?: string;
+  aboutDescription?: string;
+  emailPlaceholder?: string;
+  emailButtonText?: string;
+  emailSuccessMsg?: string;
+  emailPromptMsg?: string;
+  portfolioTitle?: string;
+  contactTitle?: string;
+  contactEmail?: string;
+  contactPhone?: string;
+  contactAddress?: string;
+  footerText?: string;
+}
+
 interface ClientHomeProps {
   companies: Company[];
+  settings?: Settings | null;
 }
 
 function getIconForCategory(category: string) {
@@ -28,11 +48,16 @@ function getIconForCategory(category: string) {
   if (lowerCategory.includes("future") || lowerCategory.includes("plan")) return "domain";
   if (lowerCategory.includes("headquarter")) return "grid_view";
   if (lowerCategory.includes("education") || lowerCategory.includes("entertainment") || lowerCategory.includes("toy")) return "toys";
+  if (lowerCategory.includes("tech")) return "terminal";
   return "apartment"; // Default
 }
 
-export default function ClientHome({ companies }: ClientHomeProps) {
+export default function ClientHome({ companies, settings }: ClientHomeProps) {
   const [activeChapter, setActiveChapter] = useState(0);
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [subscribeError, setSubscribeError] = useState("");
 
   useEffect(() => {
     // Scroll Progress
@@ -72,6 +97,34 @@ export default function ClientHome({ companies }: ClientHomeProps) {
     };
   }, []);
 
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || isSubmitting) return;
+    setIsSubmitting(true);
+    setSubscribeError("");
+
+    try {
+      const res = await fetch("/api/subscribers", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (res.ok) {
+        setIsSubmitted(true);
+        setEmail("");
+      } else {
+        const data = await res.json();
+        setSubscribeError(data.error || "Failed to subscribe");
+      }
+    } catch (err) {
+      console.error("Subscription error:", err);
+      setSubscribeError("Failed to subscribe");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const scrollToChapter = (index: number) => {
     const section = document.querySelector(`section[data-chapter="${index}"]`);
     if (section) {
@@ -80,6 +133,22 @@ export default function ClientHome({ companies }: ClientHomeProps) {
   };
 
   const chapters = ["Vision", "Architecture", "Portfolio", "Legacy"];
+
+  const siteName = settings?.siteName || "KMG Group";
+  const siteTagline = settings?.siteTagline || "Architecting Tomorrow";
+  const siteSubtagline = settings?.siteSubtagline || "Cultivating Legacy Through Strategic Excellence";
+  const aboutTitle = settings?.aboutTitle || "About KMG Group";
+  const aboutDescription = settings?.aboutDescription || "KMG Group stands at the vanguard of sovereign and institutional investment. We don't merely allocate capital; we architect entire ecosystems of value, fusing visionary foresight with exacting operational mastery.";
+  const portfolioTitle = settings?.portfolioTitle || "Our Portfolio";
+  const contactTitle = settings?.contactTitle || "Begin a Dialogue";
+  const emailPromptMsg = settings?.emailPromptMsg || "Exclusive access is reserved for visionary partners and sovereign entities seeking unparalleled value creation.";
+  const emailPlaceholder = settings?.emailPlaceholder || "Enter Private Access Key or Email";
+  const emailButtonText = settings?.emailButtonText || "Request Entry";
+  const emailSuccessMsg = settings?.emailSuccessMsg || "Thank you! We'll notify you when we launch.";
+  const contactAddress = settings?.contactAddress || "Riyadh Headquarters, Kingdom of Saudi Arabia";
+  const contactEmail = settings?.contactEmail || "info@kmggroup.com";
+  const contactPhone = settings?.contactPhone || "+966 55 555 5555";
+  const footerText = settings?.footerText || "© 2026 KMG Group. All Rights Reserved.";
 
   return (
     <div className="relative min-h-screen">
@@ -125,21 +194,20 @@ export default function ClientHome({ companies }: ClientHomeProps) {
                 </svg>
               </div>
               <h1 className="text-4xl md:text-5xl font-bold tracking-[0.25em] font-display text-primary drop-shadow-md">
-                KMQ
+                {siteName.replace(/Group|Investment/gi, "").trim() || siteName}
               </h1>
-              <span className="text-[10px] uppercase tracking-[0.6em] text-gray-500 mt-3">Group</span>
+              <span className="text-[10px] uppercase tracking-[0.6em] text-gray-500 mt-3">
+                {siteName.toLowerCase().includes("group") ? "Group" : "Investment"}
+              </span>
             </div>
           </div>
           
           <div className="space-y-8 max-w-4xl reveal reveal-delay-3">
             <h2 className="text-5xl md:text-7xl lg:text-8xl font-display text-white leading-[1.1]">
-              Architecting <br />
-              <span className="font-script font-normal text-6xl md:text-8xl lg:text-9xl gold-text-gradient ml-2 relative -top-4">
-                Tomorrow
-              </span>
+              {siteTagline}
             </h2>
             <p className="text-sm md:text-base uppercase tracking-[0.3em] text-primary/80 font-light border-y border-primary/10 py-5 inline-block px-12 lg:px-20 bg-primary/5 backdrop-blur-sm">
-              Cultivating Legacy Through Strategic Excellence
+              {siteSubtagline}
             </p>
           </div>
           
@@ -157,10 +225,10 @@ export default function ClientHome({ companies }: ClientHomeProps) {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-10 reveal-left reveal-delay-1">
               <h3 className="text-3xl md:text-5xl font-display text-white leading-tight">
-                Forging <span className="gold-text-gradient italic">Value</span> Across Global Horizons
+                {aboutTitle}
               </h3>
-              <p className="text-lg md:text-xl text-gray-400 font-light leading-relaxed">
-                KMQ Group stands at the vanguard of sovereign and institutional investment. We don't merely allocate capital; we architect entire ecosystems of value, fusing visionary foresight with exacting operational mastery.
+              <p className="text-lg md:text-xl text-gray-400 font-light leading-relaxed whitespace-pre-line">
+                {aboutDescription}
               </p>
               
               <div className="grid grid-cols-2 gap-6 pt-8 border-t border-white/5">
@@ -195,7 +263,7 @@ export default function ClientHome({ companies }: ClientHomeProps) {
                   </div>
                   
                   <div className="relative z-10 text-right mt-auto">
-                    <span className="font-script text-5xl gold-shimmer opacity-50">KMQ</span>
+                    <span className="font-script text-5xl gold-shimmer opacity-50">{siteName}</span>
                   </div>
                </div>
             </div>
@@ -208,7 +276,7 @@ export default function ClientHome({ companies }: ClientHomeProps) {
           
           <div className="text-center mb-20 reveal reveal-delay-1">
             <h3 className="text-4xl md:text-6xl font-display text-white">
-              Curated <span className="font-script text-primary text-5xl md:text-7xl ml-2">Ventures</span>
+              {portfolioTitle}
             </h3>
             <p className="mt-6 text-gray-500 tracking-widest uppercase text-xs max-w-2xl mx-auto">
               A symphony of diversified assets spanning real estate, technology, and visionary development.
@@ -285,52 +353,69 @@ export default function ClientHome({ companies }: ClientHomeProps) {
               </span>
               
               <h3 className="text-4xl md:text-6xl font-display text-white">
-                Begin a <span className="gold-text-gradient">Dialogue</span>
+                {contactTitle}
               </h3>
               
               <p className="text-gray-400 tracking-widest uppercase text-xs leading-loose">
-                Exclusive access is reserved for visionary partners and sovereign entities seeking unparalleled value creation.
+                {emailPromptMsg}
               </p>
               
-              <div className="w-full max-w-md mx-auto relative group mt-12">
+              <form onSubmit={handleSubscribe} className="w-full max-w-md mx-auto relative group mt-12">
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary/0 via-primary/30 to-primary/0 opacity-0 group-hover:opacity-100 blur transition-opacity duration-1000"></div>
                 <div className="relative bg-black/50 backdrop-blur-md p-1 flex flex-col sm:flex-row items-center border border-white/10 group-hover:border-primary/40 transition-colors duration-500">
                   <input
                     className="flex-1 w-full bg-transparent border-none text-white placeholder-gray-600 focus:ring-0 px-6 py-4 text-sm font-light tracking-wide outline-none"
-                    placeholder="Enter Private Access Key or Email"
-                    type="text"
+                    placeholder={emailPlaceholder}
+                    type="email"
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={isSubmitting || isSubmitted}
                   />
-                  <button className="w-full sm:w-auto px-8 py-4 bg-primary/10 hover:bg-primary text-primary hover:text-black font-medium text-xs tracking-widest uppercase transition-all duration-500 ease-out cursor-pointer border-l border-white/5">
-                    Request Entry
+                  <button
+                    type="submit"
+                    disabled={isSubmitting || isSubmitted}
+                    className="w-full sm:w-auto px-8 py-4 bg-primary/10 hover:bg-primary text-primary hover:text-black font-medium text-xs tracking-widest uppercase transition-all duration-500 ease-out cursor-pointer border-l border-white/5 disabled:opacity-50"
+                  >
+                    {isSubmitting ? "Sending..." : emailButtonText}
                   </button>
                 </div>
-              </div>
+                {isSubmitted && (
+                  <p className="mt-4 text-xs text-primary tracking-widest uppercase">
+                    {emailSuccessMsg}
+                  </p>
+                )}
+                {subscribeError && (
+                  <p className="mt-4 text-xs text-red-400 tracking-widest uppercase">
+                    {subscribeError}
+                  </p>
+                )}
+              </form>
             </div>
             
             <div className="mt-32 pt-12 border-t border-white/5 grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10 text-center md:text-left">
               <div>
                 <h5 className="text-white font-display text-xl tracking-wide mb-4">
-                  KMQ <span className="text-primary">Group</span>
+                  {siteName}
                 </h5>
-                <p className="text-xs text-gray-500 leading-relaxed uppercase tracking-widest">
-                  Riyadh Headqaurters<br/>
-                  Kingdom of Saudi Arabia
+                <p className="text-xs text-gray-500 leading-relaxed uppercase tracking-widest whitespace-pre-line">
+                  {contactAddress}
                 </p>
               </div>
               
               <div className="flex flex-col items-center justify-center gap-4">
-                <a href="mailto:info@kmqgroup.com" className="text-xs uppercase tracking-widest text-gray-400 hover:text-primary transition-colors flex items-center gap-3">
+                <a href={`mailto:${contactEmail}`} className="text-xs uppercase tracking-widest text-gray-400 hover:text-primary transition-colors flex items-center gap-3">
                   <span className="material-symbols-outlined text-sm text-primary">mail</span>
-                  info@kmqgroup.com
+                  {contactEmail}
                 </a>
-                <a href="tel:+966555555555" className="text-xs uppercase tracking-widest text-gray-400 hover:text-primary transition-colors flex items-center gap-3">
+                <a href={`tel:${contactPhone}`} className="text-xs uppercase tracking-widest text-gray-400 hover:text-primary transition-colors flex items-center gap-3">
                   <span className="material-symbols-outlined text-sm text-primary">call</span>
-                  +966 55 555 5555
+                  {contactPhone}
                 </a>
               </div>
               
               <div className="flex flex-col md:items-end justify-center gap-4 text-[10px] text-gray-600 uppercase tracking-widest">
-                <p>© 2026 KMQ Group. All Rights Reserved.</p>
+                <p>{footerText}</p>
                 <div className="flex gap-4">
                   <Link href="#" className="hover:text-primary transition-colors">Privacy</Link>
                   <Link href="#" className="hover:text-primary transition-colors">Terms</Link>
