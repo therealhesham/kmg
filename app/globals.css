@@ -258,9 +258,10 @@
 .portfolio-card {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255,255,255,0.04);
-  transition: border-color 0.6s, transform 0.6s;
+  border: 1px solid rgba(255,255,255,0.06);
+  transition: border-color 0.6s, transform 0.6s, box-shadow 0.6s;
   cursor: pointer;
+  background: linear-gradient(145deg, #111111 0%, #0d0d0d 100%);
 }
 
 .portfolio-card:hover {
@@ -270,18 +271,47 @@
               0 0 40px -10px rgba(212,175,55,0.15);
 }
 
-.portfolio-card .card-img {
-  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.6s ease;
+/* Logo area — logo stays centered, slightly dims when text appears */
+.portfolio-card .card-logo-area {
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.portfolio-card:hover .card-img {
-  transform: scale(1.08);
-  opacity: 0.35;
+.portfolio-card:hover .card-logo-area {
+  transform: translateY(-16px);
+}
+
+.portfolio-card .card-logo-img {
+  opacity: 0.9;
+  filter: drop-shadow(0 4px 24px rgba(0,0,0,0.5));
+  transition: opacity 0.5s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+}
+
+.portfolio-card:hover .card-logo-img {
+  opacity: 0.65;
+  transform: scale(1.04);
+  filter: drop-shadow(0 4px 32px rgba(212,175,55,0.2));
+}
+
+/* Bottom gradient fade — only visible from ~50% down so logo stays clean */
+.portfolio-card::after {
+  content: "";
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 55%;
+  background: linear-gradient(to bottom, transparent 0%, rgba(8,8,8,0.92) 100%);
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+  opacity: 0;
+  z-index: 5;
+}
+
+.portfolio-card:hover::after {
+  opacity: 1;
 }
 
 .portfolio-card .card-content {
   transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 10;
 }
 
 .portfolio-card:hover .card-content { transform: translateY(-8px); }
@@ -296,6 +326,7 @@
   opacity: 1;
   transform: translateY(0);
 }
+
 
 /* ─── Timeline ───────────────────────────────────────────────────── */
 .timeline-item {

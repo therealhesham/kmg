@@ -302,25 +302,25 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
                     isLarge ? "md:col-span-2 lg:col-span-3 h-[500px]" : ""
                   }`}
                 >
-                  <img
-                    alt={company.name}
-                    className="card-img absolute inset-0 w-full h-full object-cover opacity-50"
-                    src={company.logo}
-                  />
-                  <div className="absolute inset-0 image-overlay"></div>
-                  
+                  {/* Subtle ambient glow on hover */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style={{background: 'radial-gradient(ellipse at 50% 30%, rgba(212,175,55,0.08) 0%, transparent 70%)'}}></div>
+
                   {/* Decorative Borders */}
                   <div className="absolute inset-4 border border-primary/0 group-hover:border-primary/30 transition-colors duration-700 pointer-events-none"></div>
                   <div className="absolute top-4 left-4 w-4 h-4 border-t border-l border-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   <div className="absolute bottom-4 right-4 w-4 h-4 border-b border-r border-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-                  <div className="absolute inset-0 p-10 flex flex-col justify-end z-10 card-content">
-                    <div className="mb-auto self-end opacity-50 group-hover:opacity-100 transition-opacity duration-500">
-                      <span className="material-symbols-outlined text-3xl text-primary font-thin drop-shadow-md">
-                        {getIconForCategory(company.description || company.name || "")}
-                      </span>
-                    </div>
+                  {/* Logo — clearly visible in center */}
+                  <div className="absolute inset-0 flex items-center justify-center p-10 card-logo-area">
+                    <img
+                      alt={company.name}
+                      className="card-logo-img max-w-[60%] max-h-[45%] w-auto h-auto object-contain transition-all duration-700"
+                      src={company.logo}
+                    />
+                  </div>
 
+                  {/* Bottom info — slides up on hover */}
+                  <div className="absolute inset-0 p-10 flex flex-col justify-end z-10 card-content">
                     <div>
                       <h4 className="font-display text-2xl font-bold tracking-widest text-white mb-3 uppercase drop-shadow-lg">
                         {company.name}
