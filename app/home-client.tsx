@@ -136,7 +136,7 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
     }
   };
 
-  const chapters = ["Vision", "Architecture", "Portfolio", "Legacy"];
+  const chapters = ["Vision", "About", "Our Companies", "Contact Us"];
 
   const siteName = settings?.siteName || "KMG Group";
   const siteTagline = settings?.siteTagline || "Architecting Tomorrow";
@@ -147,7 +147,7 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
   const stat1Subtitle = settings?.stat1Subtitle || "Asset Curation";
   const stat2Title = settings?.stat2Title || "Global";
   const stat2Subtitle = settings?.stat2Subtitle || "Market Presence";
-  const portfolioTitle = settings?.portfolioTitle || "Our Portfolio";
+  const portfolioTitle = settings?.portfolioTitle || "Our Companies";
   const contactTitle = settings?.contactTitle || "Begin a Dialogue";
   const emailPromptMsg = settings?.emailPromptMsg || "Exclusive access is reserved for visionary partners and sovereign entities seeking unparalleled value creation.";
   const emailPlaceholder = settings?.emailPlaceholder || "Enter Private Access Key or Email";
@@ -226,9 +226,9 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
           </div>
         </section>
 
-        {/* CHAPTER 1: THE ARCHITECTURE */}
+        {/* CHAPTER 1: THE About */}
         <section data-chapter="1" className="min-h-screen flex flex-col justify-center py-24 story-section">
-          <div className="chapter-label mb-16 reveal-left">02. The Architecture</div>
+          <div className="chapter-label mb-16 reveal-left">02. About</div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-10 reveal-left reveal-delay-1">
@@ -358,7 +358,7 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
 
         {/* CHAPTER 3: THE LEGACY */}
         <section data-chapter="3" className="min-h-screen flex flex-col justify-center py-24 story-section">
-          <div className="chapter-label mb-16 reveal">04. The Legacy</div>
+          <div className="chapter-label mb-16 reveal">04. Contact Us</div>
 
           <div className="glass-card rounded-sm p-12 md:p-24 relative overflow-hidden reveal reveal-delay-1 border border-primary/20">
             {/* Background glowing orb */}
