@@ -184,11 +184,11 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
       </div>
 
       <main className="relative z-10 max-w-7xl mx-auto px-6 md:px-16 lg:px-24">
-        
+
         {/* CHAPTER 0: THE VISION */}
         <section data-chapter="0" className="min-h-screen flex flex-col justify-center items-center text-center py-24 story-section reveal">
           <div className="chapter-label mb-12 reveal reveal-delay-1">01. The Vision</div>
-          
+
           <div className="relative w-40 h-40 md:w-48 md:h-48 flex items-center justify-center mb-10 reveal reveal-delay-2">
             <div className="absolute inset-0 bg-primary opacity-[0.03] rounded-full blur-3xl scale-150 animate-[pulseGold_4s_infinite]"></div>
             <div className="flex flex-col items-center group cursor-default">
@@ -209,7 +209,7 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
               </span>
             </div>
           </div>
-          
+
           <div className="space-y-8 max-w-4xl reveal reveal-delay-3">
             <h2 className="text-5xl md:text-7xl lg:text-8xl font-display text-white leading-[1.1]">
               {siteTagline}
@@ -218,7 +218,7 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
               {siteSubtagline}
             </p>
           </div>
-          
+
           <div className="mt-16 reveal reveal-delay-4">
             <span className="material-symbols-outlined text-primary/40 text-4xl animate-bounce font-thin">
               keyboard_arrow_down
@@ -229,7 +229,7 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
         {/* CHAPTER 1: THE ARCHITECTURE */}
         <section data-chapter="1" className="min-h-screen flex flex-col justify-center py-24 story-section">
           <div className="chapter-label mb-16 reveal-left">02. The Architecture</div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="space-y-10 reveal-left reveal-delay-1">
               <h3 className="text-3xl md:text-5xl font-display text-white leading-tight">
@@ -238,7 +238,7 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
               <p className="text-lg md:text-xl text-gray-400 font-light leading-relaxed whitespace-pre-line">
                 {aboutDescription}
               </p>
-              
+
               <div className="grid grid-cols-2 gap-6 pt-8 border-t border-white/5">
                 <div className="stat-card">
                   <div className="text-3xl font-display text-primary mb-2">{stat1Title}</div>
@@ -250,30 +250,30 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
                 </div>
               </div>
             </div>
-            
+
             <div className="relative h-[600px] w-full reveal-right reveal-delay-2 hidden lg:block">
-               <div className="absolute inset-0 glass-card rounded-sm border-primary/20 flex flex-col justify-between p-12 overflow-hidden group">
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] rounded-full group-hover:bg-primary/20 transition-all duration-1000"></div>
-                  
-                  <div className="space-y-8 relative z-10">
-                    <div className="timeline-item">
-                      <h4 className="text-primary tracking-widest uppercase text-xs mb-2">Phase I</h4>
-                      <p className="text-white font-display text-xl">Strategic Acquisition</p>
-                    </div>
-                    <div className="timeline-item">
-                      <h4 className="text-primary tracking-widest uppercase text-xs mb-2">Phase II</h4>
-                      <p className="text-white font-display text-xl">Operational Synergy</p>
-                    </div>
-                    <div className="timeline-item">
-                      <h4 className="text-primary tracking-widest uppercase text-xs mb-2">Phase III</h4>
-                      <p className="text-white font-display text-xl">Legacy Realization</p>
-                    </div>
+              <div className="absolute inset-0 glass-card rounded-sm border-primary/20 flex flex-col justify-between p-12 overflow-hidden group">
+                <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] rounded-full group-hover:bg-primary/20 transition-all duration-1000"></div>
+
+                <div className="space-y-8 relative z-10">
+                  <div className="timeline-item">
+                    <h4 className="text-primary tracking-widest uppercase text-xs mb-2">Phase I</h4>
+                    <p className="text-white font-display text-xl">Strategic Acquisition</p>
                   </div>
-                  
-                  <div className="relative z-10 text-right mt-auto">
-                    <span className="font-script text-5xl gold-shimmer opacity-50">{siteName}</span>
+                  <div className="timeline-item">
+                    <h4 className="text-primary tracking-widest uppercase text-xs mb-2">Phase II</h4>
+                    <p className="text-white font-display text-xl">Operational Synergy</p>
                   </div>
-               </div>
+                  <div className="timeline-item">
+                    <h4 className="text-primary tracking-widest uppercase text-xs mb-2">Phase III</h4>
+                    <p className="text-white font-display text-xl">Legacy Realization</p>
+                  </div>
+                </div>
+
+                <div className="relative z-10 text-right mt-auto">
+                  <span className="font-script text-5xl gold-shimmer opacity-50">{siteName}</span>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -281,7 +281,7 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
         {/* CHAPTER 2: THE PORTFOLIO */}
         <section data-chapter="2" className="min-h-screen py-24 story-section">
           <div className="chapter-label mb-16 reveal">03. The Portfolio</div>
-          
+
           <div className="text-center mb-20 reveal reveal-delay-1">
             <h3 className="text-4xl md:text-6xl font-display text-white">
               {portfolioTitle}
@@ -298,12 +298,11 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
               return (
                 <div
                   key={company.id}
-                  className={`portfolio-card group h-[400px] bg-surface-dark rounded-sm reveal ${delayClass} ${
-                    isLarge ? "md:col-span-2 lg:col-span-3 h-[500px]" : ""
-                  }`}
+                  className={`portfolio-card group h-[400px] bg-surface-dark rounded-sm reveal ${delayClass} ${isLarge ? "md:col-span-2 lg:col-span-3 h-[500px]" : ""
+                    }`}
                 >
                   {/* Subtle ambient glow on hover */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style={{background: 'radial-gradient(ellipse at 50% 30%, rgba(212,175,55,0.08) 0%, transparent 70%)'}}></div>
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 50% 30%, rgba(212,175,55,0.08) 0%, transparent 70%)' }}></div>
 
                   {/* Decorative Borders */}
                   <div className="absolute inset-4 border border-primary/0 group-hover:border-primary/30 transition-colors duration-700 pointer-events-none"></div>
@@ -319,7 +318,38 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
                     />
                   </div>
 
+                  {/* Bottom info — slides up on hover */}
+                  <div className="absolute inset-0 p-10 flex flex-col justify-end z-10 card-content">
+                    <div>
+                      <h4 className="font-display text-2xl font-bold tracking-widest text-white mb-3 uppercase drop-shadow-lg">
+                        {/* {company.name} */}
+                      </h4>
+                      <div className="h-[1px] w-12 bg-primary mb-4 card-reveal"></div>
+                      <p className="text-xs uppercase tracking-widest text-gray-300 card-reveal mb-6 line-clamp-3 leading-loose">
+                        {company.description}
+                      </p>
 
+                      {company.website && company.website.trim() !== "" && company.website.trim() !== "#" && (
+                        <Link
+                          className="card-reveal inline-flex items-center gap-3 text-primary text-xs tracking-widest uppercase hover:text-white transition-colors"
+                          href={
+                            company.website.startsWith("http://") ||
+                              company.website.startsWith("https://") ||
+                              company.website.startsWith("/")
+                              ? company.website
+                              : `https://${company.website}`
+                          }
+                          target={company.website.startsWith("/") ? "_self" : "_blank"}
+                          rel="noopener noreferrer"
+                        >
+                          Explore Venture
+                          <span className="material-symbols-outlined text-[14px]">
+                            arrow_right_alt
+                          </span>
+                        </Link>
+                      )}
+                    </div>
+                  </div>
                 </div>
               );
             })}
@@ -329,24 +359,24 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
         {/* CHAPTER 3: THE LEGACY */}
         <section data-chapter="3" className="min-h-screen flex flex-col justify-center py-24 story-section">
           <div className="chapter-label mb-16 reveal">04. The Legacy</div>
-          
+
           <div className="glass-card rounded-sm p-12 md:p-24 relative overflow-hidden reveal reveal-delay-1 border border-primary/20">
             {/* Background glowing orb */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 blur-[120px] rounded-full pointer-events-none"></div>
-            
+
             <div className="relative z-10 text-center space-y-12 max-w-3xl mx-auto">
               <span className="material-symbols-outlined text-primary text-5xl font-thin opacity-80">
                 diamond
               </span>
-              
+
               <h3 className="text-4xl md:text-6xl font-display text-white">
                 {contactTitle}
               </h3>
-              
+
               <p className="text-gray-400 tracking-widest uppercase text-xs leading-loose">
                 {emailPromptMsg}
               </p>
-              
+
               <form onSubmit={handleSubscribe} className="w-full max-w-md mx-auto relative group mt-12">
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary/0 via-primary/30 to-primary/0 opacity-0 group-hover:opacity-100 blur transition-opacity duration-1000"></div>
                 <div className="relative bg-black/50 backdrop-blur-md p-1 flex flex-col sm:flex-row items-center border border-white/10 group-hover:border-primary/40 transition-colors duration-500">
@@ -379,7 +409,7 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
                 )}
               </form>
             </div>
-            
+
             <div className="mt-32 pt-12 border-t border-white/5 grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10 text-center md:text-left">
               <div>
                 <h5 className="text-white font-display text-xl tracking-wide mb-4">
@@ -389,7 +419,7 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
                   {contactAddress}
                 </p>
               </div>
-              
+
               <div className="flex flex-col items-center justify-center gap-4">
                 <a href={`mailto:${contactEmail}`} className="text-xs uppercase tracking-widest text-gray-400 hover:text-primary transition-colors flex items-center gap-3">
                   <span className="material-symbols-outlined text-sm text-primary">mail</span>
@@ -400,7 +430,7 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
                   {contactPhone}
                 </a>
               </div>
-              
+
               <div className="flex flex-col md:items-end justify-center gap-4 text-[10px] text-gray-600 uppercase tracking-widest">
                 <p>{footerText}</p>
                 <div className="flex gap-4">
@@ -416,3 +446,4 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
     </div>
   );
 }
+
