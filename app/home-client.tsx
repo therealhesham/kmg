@@ -319,38 +319,7 @@ export default function ClientHome({ companies, settings }: ClientHomeProps) {
                     />
                   </div>
 
-                  {/* Bottom info — slides up on hover */}
-                  <div className="absolute inset-0 p-10 flex flex-col justify-end z-10 card-content">
-                    <div>
-                      <h4 className="font-display text-2xl font-bold tracking-widest text-white mb-3 uppercase drop-shadow-lg">
-                        {company.name}
-                      </h4>
-                      <div className="h-[1px] w-12 bg-primary mb-4 card-reveal"></div>
-                      <p className="text-xs uppercase tracking-widest text-gray-300 card-reveal mb-6 line-clamp-3 leading-loose">
-                        {company.description}
-                      </p>
-                      
-                      {company.website && company.website.trim() !== "" && company.website.trim() !== "#" && (
-                        <Link
-                          className="card-reveal inline-flex items-center gap-3 text-primary text-xs tracking-widest uppercase hover:text-white transition-colors"
-                          href={
-                            company.website.startsWith("http://") ||
-                            company.website.startsWith("https://") ||
-                            company.website.startsWith("/")
-                              ? company.website
-                              : `https://${company.website}`
-                          }
-                          target={company.website.startsWith("/") ? "_self" : "_blank"}
-                          rel="noopener noreferrer"
-                        >
-                          Explore Venture
-                          <span className="material-symbols-outlined text-[14px]">
-                            arrow_right_alt
-                          </span>
-                        </Link>
-                      )}
-                    </div>
-                  </div>
+
                 </div>
               );
             })}
